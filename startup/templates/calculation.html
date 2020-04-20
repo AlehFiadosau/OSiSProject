@@ -1,0 +1,21 @@
+{% extends "shared/layout.html" %}
+{% block title %}
+Однопроцессорное вычисление
+{% endblock %}
+{% block content %}
+<div class="calculation">
+    <h3>Нахождение площади поверхности</h3>
+    <div class="flex-row__space-between">
+        <div>
+            <form method="GET" class="data-for-surface">
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <input type="button" class="btn btn-success" data-content="calc-surface-square" value="Расчет" >
+            </form>
+            <div id="load-element" style="color: green; display: none;">Выполнение расчета...</div>
+        </div>
+        <div id="result"></div>
+    </div>
+</div>
+{% endblock %}

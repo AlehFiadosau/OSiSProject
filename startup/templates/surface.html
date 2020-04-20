@@ -1,0 +1,37 @@
+{% extends "shared/layout.html" %}
+{% block title %}
+Поверхности
+{% endblock %}
+{% block content %}
+{% load static %}
+<div class="surface">
+    <h3>Построение поверхности</h3>
+    <div class="surface__get-data">
+        <div>
+            <p>Значения Х</p>
+            <div class="flex-row__flex-start">
+                <img src="{% static "img/icons8-плюс-32.png" %}" data-content="get-file" data-value="0" alt="Добавить файл с данными X">
+                <div class="file-for-surface" id="file-for-surface-0">None</div>
+            </div>
+        </div>
+        <div>
+            <p>Значения Y</p>
+            <div class="flex-row__flex-start">
+                <img src="{% static "img/icons8-плюс-32.png" %}" data-content="get-file" data-value="1" alt="Добавить файл с данными Y">
+                <div class="file-for-surface" id="file-for-surface-1">None</div>
+            </div>
+        </div>
+        <div>
+            <p>Значения Z</p>
+            <di class="flex-row__flex-start">
+                <img src="{% static "img/icons8-плюс-32.png" %}" data-content="get-file" data-value="2" alt="Добавить файл с данными Z">
+                <div class="file-for-surface" id="file-for-surface-2">None</div>
+            </div>
+        </div>
+        <input type="button" data-content="draw" class="draw-surface btn btn-info" value="Построить">
+        <div id="draw-load" style="display: none; color: green">Построение поверхности...</div>
+        <div id="draw-result__successed"></div>
+        <div id="draw-result__failed"></div>
+    </div>
+</div>
+{% endblock %}

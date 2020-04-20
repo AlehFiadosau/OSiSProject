@@ -1,0 +1,57 @@
+{% extends "shared/layout.html" %}
+{% block title %}
+Главная страница
+{% endblock %}
+{% block content %}
+{% load static %}
+<div class="information-about-project flex-column__flex-start">
+    <h3>Информация</h3>
+    <div class="flex-row__center">
+        <div class="information-about-project__content card" style="width: 18rem;">
+            <img src="{% static "img/img0.jpg" %}" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Инструменты</h5>
+              <div class="info-about-project">
+                    Django - это фреймворк для создания веб-приложений с помощью языка программирования Python.</br>
+                    Django был создан в 2005 году, когда веб-разработчики из газеты Lawrence Journal-World стали использовать Python в качестве языка для создания веб-сайтов.
+                    <div style="display: none;">
+                        В 2008 году вышел публичный первый релиз фреймворка.</br>
+                        На сегодняшний день он продолжает развиваться.Так, текущей версией фреймворка на момент написания этой статьи является версия 2.0, которая вышла 3 декабря 2017 года. Ну и также постоянно выходят подверсии.</br>
+                        Django довольно популярен. Он используется на многих сайтах, в том числе таких, как Pinterest, PBS, Instagram, BitBucket, Washington Times, Mozilla и многих других.</br>
+                        Фреймворк является бесплатным. Он развивается как open source, его исходный код открыт, его можно найти репозитории на githube.</br>
+                        Фреймворк Django реализует архитектурный паттерн Model-View-Template или сокращенно MVT, который по факту является модификацией распростаненного в веб-программировании паттерна MVC (Model=-View-Controller).</br>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Основной язык программирования: Python</li>
+                <li class="list-group-item">Вспомогательный язык программирования: JS + HTML/CSS</li>
+                <li class="list-group-item">Framewrok: Django</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Подробнее</a>
+                <a href="#" class="card-link">Свернуть</a>
+            </div>
+        </div>
+        <div class="information-about-project__content card" style="width: 18rem;">
+            <img src="{% static "img/img1.png" %}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">Численное интегрирование</h5>
+                <div class="info-about-project">
+                    Метод трапеций — метод численного интегрирования функции одной переменной, заключающийся в замене на каждом элементарном отрезке подынтегральной функции на многочлен первой степени, то есть линейную функцию.
+                    <div style="display: none;">
+                        Площадь под графиком функции аппроксимируется прямоугольными трапециями. Алгебраический порядок точности равен 1.
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Метод: трапеция</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Подробнее</a>
+                <a href="#" class="card-link">Свернуть</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

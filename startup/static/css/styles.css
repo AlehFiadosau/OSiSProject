@@ -1,0 +1,84 @@
+footer,
+.data-for-surface,
+input.data-for-surface__field,
+.draw-surface {
+    margin: 1vw;
+}
+
+
+.information-about-project,
+.information-about-project__content,
+.calculation,
+.surface {
+    margin: 2vw;
+}
+
+.data-for-surface {
+    width: 20vw;
+}
+
+.data-for-surface label {
+    font-size: 18px;
+    font-family: Comic Sans MS;
+}
+
+input.data-for-surface__field {
+    width: 15vw;
+    border: 2px double green;
+    box-shadow: 3px 3px 3px 3px gray;
+}
+
+.surface__get-data p {
+    font-family: Comic Sans MS;
+}
+
+.file-for-surface {
+    font-size: 20px;
+    margin: 0.5vw 1vw;
+    font-family: Comic Sans MS;
+    box-shadow: 5px 5px 5px gray;
+    border-radius: 10px;
+    padding: 1vw;
+    background: cadetblue;
+    color: white;
+}
+
+
+/*Flex*/
+.flex-row__center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-row__flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-row__space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-row__space-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.flex-column__center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column__flex-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
