@@ -1,9 +1,12 @@
-let dataDictionary = {}
+let dataDictionary = {};
+let cardMinors = document.querySelectorAll(".information-about-project__minor-content .card");
+let cardMajors = document.querySelectorAll(".information-about-project__major-content");
 
 document.addEventListener("click", (ev) => {
     let dataContent = ev.target.getAttribute("data-content");
+    let dataValue = ev.target.getAttribute("data-value");
 
-    switch(dataContent) {
+    switch (dataContent) {
         case "calc-surface-square":
             let A = document.querySelector("#id_A");
             let B = document.querySelector("#id_B");
@@ -27,10 +30,9 @@ document.addEventListener("click", (ev) => {
                 N: +N.value
             };
 
-            ajaxQuery("GET", "/calcSquare/", "#load-element", dataDictionary, "#result");
+            ajaxQueryComplete("GET", "/calcSquare/", "#load-element", "#complete-element", dataDictionary, "#result");
             break;
         case "get-file":
-            let dataValue = ev.target.getAttribute("data-value");
             ajaxQuery("GET", "/getFile/", undefined, undefined, `#file-for-surface-${dataValue}`);
             break;
         case "draw":
@@ -41,8 +43,7 @@ document.addEventListener("click", (ev) => {
                 };
 
                 ajaxQuery("GET", "/getDataForSurface/", "#draw-load", dataDictionary, "#draw-result__failed");
-            }
-            else {
+            } else {
                 dataDictionary = {
                     XPath: filePaths[0].value,
                     YPath: filePaths[1].value,
@@ -52,13 +53,81 @@ document.addEventListener("click", (ev) => {
                 ajaxQuery("GET", "/getDataForSurface/", "#draw-load", dataDictionary, "#draw-result__successed");
             }
             break;
-        case "nav":
-            let navbarActive = document.querySelector(".navbar-nav .active");
-            navbarActive.classList.remove("active");
-            console.log(navbarActive);
+        case "full-screen":
+            let fullScreenCardElement = document.querySelector(".full-screen-card");
+
+            if (fullScreenCardElement.children[0] != undefined) {
+                fullScreenCardElement.classList.remove("active");
+                fullScreenCardElement.removeChild(fullScreenCardElement.children[0]);
+                cardMajors[+dataValue].classList.add("active");
+            } else {
+                ajaxQuery("GET", "/fullScreenCard/", undefined, undefined, ".full-screen-card");
+                cardMajors[+dataValue].classList.remove("active");
+                fullScreenCardElement.classList.add("active");
+            }
             break;
     }
 });
+
+document.addEventListener("change", (ev) => {
+    let dataContent = ev.target.getAttribute("data-content");
+    let dataValue = ev.target.getAttribute("data-value");
+    let hints;
+
+    switch (dataContent) {
+        case "params-for-calc-surface":
+            hints = document.querySelectorAll(".hint-for-params");
+            hints[+dataValue].innerHTML = ev.target.value;
+            break;
+        case "intervals-for-calc-surface":
+            hints = document.querySelectorAll(".hint-for-intervals");
+            hints[+dataValue].innerHTML = ev.target.value;
+            break;
+        case "processes-for-calc-surface":
+            hints = document.querySelectorAll(".hint-for-processes");
+            hints[+dataValue].innerHTML = ev.target.value;
+            break;
+        case "div-for-calc-surface":
+            hints = document.querySelectorAll(".hint-for-div");
+            hints[+dataValue].innerHTML = ev.target.value;
+            break;
+    }
+});
+
+carsMinorsEvents(cardMinors);
+
+function carsMinorsEvents(cardMinors) {
+    for (let index = 0; index < cardMinors.length; index++) {
+        cardMinors[index].addEventListener("click", () => {
+            let dataValue = cardMinors[index].getAttribute("data-value");
+            let content = document.querySelectorAll(".information-about-project__major-content");
+            changeClass(cardMinors, +dataValue, "bg-info", "bg-dark")
+            removeClass(content, "active");
+            content[+dataValue].classList.add("active");
+        })
+    }
+}
+
+function changeClass(content, contentNumber, targetClass, otherClass) {
+    removeClass(content, otherClass);
+    removeClass(content, targetClass);
+
+    for (let index = 0; index < content.length; index++) {
+        if (index != contentNumber) {
+            content[index].classList.add(otherClass);
+        }
+    }
+
+    content[contentNumber].classList.add(targetClass);
+}
+
+function removeClass(content, className) {
+    for (let index = 0; index < content.length; index++) {
+        if (content[index].classList.contains(className)) {
+            content[index].classList.remove(className);
+        }
+    }
+}
 
 function ajaxQuery(ajaxType, ajaxUrl, loadElement, dataDictionary, resultId) {
     $.ajax({
@@ -69,6 +138,26 @@ function ajaxQuery(ajaxType, ajaxUrl, loadElement, dataDictionary, resultId) {
         },
         complete: () => {
             $(loadElement).hide();
+        },
+        onBegin: "ajaxBegin",
+        data: dataDictionary,
+        success: (data) => {
+            $(resultId).html(data);
+        }
+    });
+}
+
+function ajaxQueryComplete(ajaxType, ajaxUrl, loadElement, completeElement, dataDictionary, resultId) {
+    $.ajax({
+        type: ajaxType,
+        url: ajaxUrl,
+        beforeSend: () => {
+            $(loadElement).show();
+            $(completeElement).hide();
+        },
+        complete: () => {
+            $(loadElement).hide();
+            $(completeElement).show();
         },
         onBegin: "ajaxBegin",
         data: dataDictionary,

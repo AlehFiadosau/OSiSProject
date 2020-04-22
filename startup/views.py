@@ -50,8 +50,9 @@ def getDataForSurface(request):
 
 
 def calculation(request):
-    form = SurfaceForm()
-    return render(request, "calculation.html", {"form": form})
+    # form = SurfaceForm()
+    # return render(request, "calculation.html", {"form": form})
+    return render(request, "calculation.html")
 
 
 def calcSquare(request):
@@ -77,3 +78,6 @@ def calcSquare(request):
     fileHelper.writeToFiles()
 
     return render(request, "calculation/calcSquare.html", {"Result": result, "ExecuteTime": executeTime})
+
+def fullScreenCard(request):
+    return render(request, "home/fullScreenCard.html")

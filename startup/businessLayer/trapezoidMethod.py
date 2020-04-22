@@ -1,14 +1,14 @@
+from scipy.interpolate import interp1d
+from mpl_toolkits.mplot3d import axes3d
+from datetime import datetime
+import time
+import struct
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import pyplot
 import math
 import matplotlib
 matplotlib.use('TkAgg')
-from matplotlib import pyplot
-import matplotlib.pyplot as plt
-import numpy as np
-import struct
-import time
-from datetime import datetime
-from mpl_toolkits.mplot3d import axes3d
-from scipy.interpolate import interp1d
 
 
 class TrapezoidMethod():
@@ -37,27 +37,22 @@ class TrapezoidMethod():
         result = 0
 
         startTime = datetime.now()
-        hx, hy = self.heightCalc(n)
+        hx = (self.Xf - self.Xs) / n
+        hy = (self.Yf - self.Ys) / n
 
-        for index in range(self.Xs, self.Xf - 1):
-            x = self.Xs + hx * index
-            result += self.calcFromY(x, hy)
+        for index in range(n - 1):
+            y = self.Ys + hy * index
+            result += self.calcFromX(y, hx, n)
 
         result = result * hx * hy
         executeTime = datetime.now() - startTime
 
         return [result, executeTime]
 
-    def heightCalc(self, n):
-        hx = (self.Xf - self.Xs) / n
-        hy = (self.Yf - self.Ys) / n
-
-        return [hx, hy]
-
-    def calcFromY(self, x, hy):
+    def calcFromX(self, y, hx, n):
         result = 0
-        for index in range(self.Ys, self.Yf - 1):
-            y = self.Ys + hy * index
+        for index in range(n - 1):
+            x = self.Xs + hx * index
             if (index == self.Ys):
                 result += self.getFunc(x, y) / 4
             elif (index == self.Yf):

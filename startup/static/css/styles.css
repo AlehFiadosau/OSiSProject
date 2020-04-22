@@ -1,20 +1,90 @@
 footer,
 .data-for-surface,
 input.data-for-surface__field,
+.information-about-project,
 .draw-surface {
     margin: 1vw;
 }
 
 
-.information-about-project,
-.information-about-project__content,
+
 .calculation,
 .surface {
     margin: 2vw;
 }
 
+.information-about-project__major-content {
+    margin: 1vw 5vw;
+    padding: 2vw;
+    height: 60vw;
+    width: 60vw;
+    box-shadow: 5px 5px 5px 5px gray;
+    overflow: hidden;
+}
+
+div.information-about-project__major-content_full-screen {
+    position: absolute;
+    padding: 2vw;
+    left: 2vw;
+    width: 95vw;
+    box-shadow: 5px 5px 5px 5px gray;
+    background: white;
+    z-index: 5;
+}
+
+.set-full-screen {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5vw 0;
+    width: 100%;
+}
+
+.full-screen-card {
+    position: fixed;
+    background-color: gray;
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    z-index: 11;
+    left: 0;
+    overflow: auto;
+    display: none;
+}
+.full-screen-card .information-about-project__major-content_full-screen {
+    margin: 1vw 0;
+}
+
+.information-about-project__minor-content {
+    margin: 1vw 0;
+    padding: 2vw;
+    height: 35vw;
+    box-shadow: 5px 5px 5px 5px gray;
+    overflow: auto;
+}
+
+div.information-about-project__major-content {
+    display: none;
+}
+
+div.active {
+    display: flex;
+}
+
+
+.information-about-project__minor-content .card {
+    position: relative;
+    max-width: 18rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.information-about-project__minor-content div {
+    position: relative;
+    z-index: 1;
+}
+
 .data-for-surface {
-    width: 20vw;
+    margin: 3vw;
 }
 
 .data-for-surface label {
@@ -55,6 +125,12 @@ input.data-for-surface__field {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.flex-row__flex-start-column {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .flex-row__space-between {

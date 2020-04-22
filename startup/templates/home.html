@@ -5,53 +5,109 @@
 {% block content %}
 {% load static %}
 <div class="information-about-project flex-column__flex-start">
-    <h3>Информация</h3>
-    <div class="flex-row__center">
-        <div class="information-about-project__content card" style="width: 18rem;">
-            <img src="{% static "img/img0.jpg" %}" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">Инструменты</h5>
-              <div class="info-about-project">
-                    Django - это фреймворк для создания веб-приложений с помощью языка программирования Python.</br>
-                    Django был создан в 2005 году, когда веб-разработчики из газеты Lawrence Journal-World стали использовать Python в качестве языка для создания веб-сайтов.
-                    <div style="display: none;">
-                        В 2008 году вышел публичный первый релиз фреймворка.</br>
-                        На сегодняшний день он продолжает развиваться.Так, текущей версией фреймворка на момент написания этой статьи является версия 2.0, которая вышла 3 декабря 2017 года. Ну и также постоянно выходят подверсии.</br>
-                        Django довольно популярен. Он используется на многих сайтах, в том числе таких, как Pinterest, PBS, Instagram, BitBucket, Washington Times, Mozilla и многих других.</br>
-                        Фреймворк является бесплатным. Он развивается как open source, его исходный код открыт, его можно найти репозитории на githube.</br>
-                        Фреймворк Django реализует архитектурный паттерн Model-View-Template или сокращенно MVT, который по факту является модификацией распростаненного в веб-программировании паттерна MVC (Model=-View-Controller).</br>
-                    </div>
+    <div class="flex-row__flex-start-column">
+        <div class="information-about-project__minor-content">
+            <div class="card text-white bg-info mb-3" data-value="0">
+                <div class="card-header">Django</div>
+                <div class="card-body">
+                    <h5 class="card-title">Framework Python - Django</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Основной язык программирования: Python</li>
-                <li class="list-group-item">Вспомогательный язык программирования: JS + HTML/CSS</li>
-                <li class="list-group-item">Framewrok: Django</li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">Подробнее</a>
-                <a href="#" class="card-link">Свернуть</a>
+            <div class="card text-white bg-dark mb-3" data-value="1">
+                <div class="card-header">Численные методы</div>
+                <div class="card-body">
+                    <h5 class="card-title">Численные методы интегрирования</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+            <div class="card text-white bg-dark mb-3" data-value="2">
+                <div class="card-header">Spawn</div>
+                <div class="card-body">
+                    <h5 class="card-title">Многопроцессорность в Python</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
             </div>
         </div>
-        <div class="information-about-project__content card" style="width: 18rem;">
-            <img src="{% static "img/img1.png" %}" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">Численное интегрирование</h5>
-                <div class="info-about-project">
-                    Метод трапеций — метод численного интегрирования функции одной переменной, заключающийся в замене на каждом элементарном отрезке подынтегральной функции на многочлен первой степени, то есть линейную функцию.
-                    <div style="display: none;">
-                        Площадь под графиком функции аппроксимируется прямоугольными трапециями. Алгебраический порядок точности равен 1.
+        <div>
+            <div class="full-screen-card"></div>
+            <div class="information-about-project__major-content card active">
+                <div class="set-full-screen">
+                    <img src="{% static "img/icons8-1-48.png" %}" data-content="full-screen" data-value="0">
+                </div>
+                <img src="{% static "img/img0.jpg" %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Django</h5>
+                    <div class="info-about-project">
+                        Django - это фреймворк для создания веб-приложений с помощью языка программирования Python.</br>
+                        Django был создан в 2005 году, когда веб-разработчики из газеты Lawrence Journal-World стали
+                        использовать Python в качестве языка для создания веб-сайтов.
+                        <div style="display: none;">
+                            В 2008 году вышел публичный первый релиз фреймворка.</br>
+                            На сегодняшний день он продолжает развиваться.Так, текущей версией фреймворка на момент
+                            написания этой статьи является версия 2.0, которая вышла 3 декабря 2017 года. Ну и также
+                            постоянно выходят подверсии.</br>
+                            Django довольно популярен. Он используется на многих сайтах, в том числе таких, как
+                            Pinterest,
+                            PBS, Instagram, BitBucket, Washington Times, Mozilla и многих других.</br>
+                            Фреймворк является бесплатным. Он развивается как open source, его исходный код открыт, его
+                            можно найти репозитории на githube.</br>
+                            Фреймворк Django реализует архитектурный паттерн Model-View-Template или сокращенно MVT,
+                            который
+                            по факту является модификацией распростаненного в веб-программировании паттерна MVC
+                            (Model=-View-Controller).</br>
+                        </div>
                     </div>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Метод: трапеция</li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">Подробнее</a>
-                <a href="#" class="card-link">Свернуть</a>
+            <div class="information-about-project__major-content card">
+                <div class="set-full-screen">
+                    <img src="{% static "img/icons8-1-48.png" %}" data-content="full-screen" data-value="1">
+                </div>
+                <img src="{% static "img/img1.jpg" %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Численное интегрирование</h5>
+                    <div class="info-about-project">
+                        Метод трапеций — метод численного интегрирования функции одной переменной, заключающийся в
+                        замене на
+                        каждом элементарном отрезке подынтегральной функции на многочлен первой степени, то есть
+                        линейную
+                        функцию.
+                        <div style="display: none;">
+                            Площадь под графиком функции аппроксимируется прямоугольными трапециями. Алгебраический
+                            порядок
+                            точности равен 1.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="information-about-project__major-content card">
+                <div class="set-full-screen">
+                    <img src="{% static "img/icons8-1-48.png" %}" data-content="full-screen" data-value="2">
+                </div>
+                <img src="{% static "img/img2.jpg" %}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Spawn</h5>
+                    <div class="info-about-project">
+                        Spawn означает начать что-то новое. Следовательно, порождение процесса означает создание нового
+                        процесса родительским процессом. Родительский процесс продолжает свое выполнение асинхронно или
+                        ожидает, пока дочерний процесс не завершит свое выполнение.</div>br>
+                    Выполните следующие шаги для запуска процесса –
+                    1) Импорт многопроцессорного модуля.</br>
+                    2) Создание объекта процесса.</br>
+                    3) Запуск процесса с помощью вызова метода start ().</br>
+                    4) Дождитесь, пока процесс завершит свою работу, и выйдите, вызвав метод join ().</br>
+                    5) Импорт многопроцессорного модуля.</br>
+                    6) Создание объекта процесса.</br>
+                    7) Запуск процесса с помощью вызова метода start ().</br>
+                    8) Дождитесь, пока процесс завершит свою работу, и выйдите, вызвав метод join ().</br>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}
