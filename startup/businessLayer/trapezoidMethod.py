@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib import pyplot
 import math
 import matplotlib
+from multiprocessing import Pool
 matplotlib.use('TkAgg')
 
 
@@ -33,34 +34,56 @@ class TrapezoidMethod():
         self.Ys = ys
         self.Yf = yf
 
-    def execute(self, n):
-        result = 0
+    def execute(self, n, processesNumber):
+        sum = 0
+        res = 0
 
         startTime = datetime.now()
-        hx = (self.Xf - self.Xs) / n
-        hy = (self.Yf - self.Ys) / n
 
-        for index in range(n - 1):
-            y = self.Ys + hy * index
-            result += self.calcFromX(y, hx, n)
+        iters = n / processesNumber
+        h = (self.Yf - self.Ys) / processesNumber
+        p = Pool(processes=processesNumber)
 
-        result = result * hx * hy
+        for index in range(processesNumber):
+            ys = self.Ys + h * index
+            yf = self.Ys + h * (index + 1)
+            res = p.apply_async(self.calcFromY, (ys, yf, math.ceil(iters)))
+            sum += res.get()
+        
+        p.close()
+        p.join()
+
         executeTime = datetime.now() - startTime
 
-        return [result, executeTime]
+        return [sum, executeTime]
 
-    def calcFromX(self, y, hx, n):
+    def calcFromY(self, ys, yf, n):
+        sum = 0
+        hy = (yf - ys) / n
+        hx = (self.Xf - self.Xs) / n
+
+        for index in range(n):
+            y = ys + hy * index
+            if (index == 0 or index == n):
+                sum += self.calcFromX(y, hx, n, True, False)
+            else:
+                sum += self.calcFromX(y, hx, n, False, False)
+
+        return sum * hy
+    
+    def calcFromX(self, y, hx, n, isStart=False, isFinish=False):
         result = 0
-        for index in range(n - 1):
+
+        for index in range(n):
             x = self.Xs + hx * index
-            if (index == self.Ys):
+            if (isStart and index == 0 or isFinish and index == n):
                 result += self.getFunc(x, y) / 4
-            elif (index == self.Yf):
+            elif (isFinish or isStart):
                 result += self.getFunc(x, y) / 2
             else:
                 result += self.getFunc(x, y)
-
-        return result
+        
+        return result * hx
 
     def getFunc(self, x, y):
         result = self.A * math.pow(x, 2) + self.B * \
@@ -74,17 +97,17 @@ class TrapezoidMethod():
         x = 0
         y = 0
         countX = int(math.fabs(self.Xf - self.Xs))
-        countY = int(math.fabs(self.Ys - self.Yf))
+        countY = int(math.fabs(self.Yf - self.Ys))
         myFyncZnach = []
         funcArray = []
-        x = self.Xs
 
-        for row in range(countX):
-            y = self.Ys
-            for column in range(countY):
+        y = self.Ys
+        for _ in range(countY):
+            x = self.Xs
+            for _ in range(countX):
                 funcArray.append(self.getFunc(x, y))
-                y += 1
-            x += 1
+                x += 1
+            y += 1
             myFyncZnach.append(funcArray)
             funcArray = []
 

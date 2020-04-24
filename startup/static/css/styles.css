@@ -2,8 +2,13 @@ footer,
 .data-for-surface,
 input.data-for-surface__field,
 .information-about-project,
-.draw-surface {
+.draw-surface,
+.calc-queue ul li {
     margin: 1vw;
+}
+
+li {
+    list-style-type: none;
 }
 
 
@@ -50,6 +55,7 @@ div.information-about-project__major-content_full-screen {
     overflow: auto;
     display: none;
 }
+
 .full-screen-card .information-about-project__major-content_full-screen {
     margin: 1vw 0;
 }
@@ -85,6 +91,22 @@ div.active {
 
 .data-for-surface {
     margin: 3vw;
+}
+
+.calc-queue {
+    margin: 2vw;
+    font-family: Comic Sans MS;
+}
+
+.calc-queue__card {
+    margin: 0.5vw 1vw;
+    padding: 1vw;
+    width: 11vw;
+    box-shadow: 5px 5px 5px 5px darkseagreen;
+}
+
+.task-complete {
+    box-shadow: 5px 5px 5px 5px aquamarine;
 }
 
 .data-for-surface label {
@@ -124,6 +146,12 @@ input.data-for-surface__field {
 .flex-row__flex-start {
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+}
+
+.flex-row__flex-end {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
 

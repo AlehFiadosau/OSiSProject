@@ -3,6 +3,7 @@
 Вычисление
 {% endblock %}
 {% block content %}
+{% load static %}
 <div class="calculation">
     <h3>Нахождение площади поверхности</h3>
     <div class="row data-for-surface">
@@ -69,8 +70,8 @@
                         class="form-control data-for-surface__field" value="70" required>
                 </div>
                 <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                    <label for="id_N">Количество процессов</label>
-                    <input type="number" id="id_N" data-content="processes-for-calc-surface" data-value="0"
+                    <label for="id_Proc">Количество процессов</label>
+                    <input type="number" id="id_Proc" data-content="processes-for-calc-surface" data-value="0"
                         class="form-control data-for-surface__field" value="1" required>
                 </div>
                 <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
@@ -82,13 +83,41 @@
         </div>
     </div>
     <input type="button" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
-    <div id="load-element" class="btn btn-info" style="display: none;">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Вычисление...
+    <div class="calc-queue">
+        <div id="clear" class="flex-row__flex-start" style="margin: 1vw">
+            <h4>Очередь</h4>
+            <!-- <img src="{% static "img/icons/icons8-5-32.png" %}" data-content="cards-clear"> -->
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+                aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <ul class="calc-queue__list flex-row__flex-start">
+            <li class="calc-queue-item flex-column__center">
+                <div class="calc-queue__card">Пусто</div>
+                <div class="results" id="result-0"></div>
+            </li>
+        </ul>
     </div>
-    <div id="complete-element" class="btn btn-success" style="display: none;">
-        Вычисление завершено
-    </div>
-    <div id="result"></div>
+    <!-- <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div> -->
 </div>
 {% endblock %}

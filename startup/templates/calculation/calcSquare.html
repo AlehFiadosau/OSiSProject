@@ -1,34 +1,15 @@
+{% load static %}
 <div class="flex-row__space-around">
-    <!-- <div class="card text-center">
-        <div class="card-header">
-          <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div> -->
-    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+    <div class="card-minor card text-white bg-info mb-3" style="max-width: 18rem;" hidden>
         <div class="card-header">
             Площадь поверхности
         </div>
         <ul class="list-group list-group-flush text-white bg-dark mb-3">
           <li class="list-group-item text-white bg-dark mb-3">Значение: {{ Result }}</li>
           <li class="list-group-item text-white bg-dark mb-3">Время расчета: {{ ExecuteTime }}</li>
-          <li class="list-group-item text-white bg-dark mb-3">Количество потоков: 1</li>
+          <li class="list-group-item text-white bg-dark mb-3">Количество процессов: {{ ProcNum }}</li>
           <li class="list-group-item text-white bg-dark mb-3">
-              <input type="button" class="btn btn-info" value="Подробнее" disabled/>
+              <input type="button" class="btn btn-info" value="Подробнее"/>
           </li>
         </ul>
     </div>

@@ -1,11 +1,10 @@
-import os
 from django.shortcuts import render
-from .forms import SurfaceForm
 from django.http import HttpResponse
-from tkinter import *
+import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from .businessLayer.trapezoidMethod import TrapezoidMethod
 from .businessLayer.fileHelper import FileHelperForTrapezoid
+from multiprocessing import Pool
 
 
 def home(request):
@@ -17,7 +16,7 @@ def surface(request):
 
 
 def getFile(request):
-    root = Tk()
+    root = tk.Tk()
     root.withdraw()
     path = askopenfilename(defaultextension='.csv',
                            initialdir="/",
@@ -43,15 +42,13 @@ def getDataForSurface(request):
 
         trapezoid = TrapezoidMethod()
         trapezoid.draw(x, y, z)
-
+        
         return HttpResponse("Построение завершено")
-    else:     
+    else:
         return HttpResponse(error)
 
 
 def calculation(request):
-    # form = SurfaceForm()
-    # return render(request, "calculation.html", {"form": form})
     return render(request, "calculation.html")
 
 
@@ -65,19 +62,20 @@ def calcSquare(request):
     ys = int(request.GET.get("Ys", 1))
     yf = int(request.GET.get("Yf", 1))
     n = int(request.GET.get("N", 1))
+    procNum = int(request.GET.get("Proc", 1))
 
     trapezoid = TrapezoidMethod()
     trapezoid.setParams(a, b, c, d)
     trapezoid.setIntervals(xs, xf, ys, yf)
-    result, executeTime = trapezoid.execute(n)
+    result, executeTime = trapezoid.execute(n, procNum)
     z = trapezoid.getMatrix()
-
     fileHelper = FileHelperForTrapezoid()
     fileHelper.setParams(xs, xf, ys, yf)
     fileHelper.setMatrix(z)
     fileHelper.writeToFiles()
 
-    return render(request, "calculation/calcSquare.html", {"Result": result, "ExecuteTime": executeTime})
+    return render(request, "calculation/calcSquare.html", {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum})
+
 
 def fullScreenCard(request):
     return render(request, "home/fullScreenCard.html")
