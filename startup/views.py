@@ -19,7 +19,7 @@ def getFile(request):
     root = tk.Tk()
     root.withdraw()
     path = askopenfilename(defaultextension='.csv',
-                           initialdir="/",
+                           initialdir="./Output/",
                            filetypes=[('CSV files', '*.csv')])
     root.destroy()
     fileName = path.split("/").pop()
@@ -42,7 +42,7 @@ def getDataForSurface(request):
 
         trapezoid = TrapezoidMethod()
         trapezoid.draw(x, y, z)
-        
+
         return HttpResponse("Построение завершено")
     else:
         return HttpResponse(error)
@@ -63,19 +63,35 @@ def calcSquare(request):
     yf = int(request.GET.get("Yf", 1))
     n = int(request.GET.get("N", 1))
     procNum = int(request.GET.get("Proc", 1))
+    isSaveFile = bool(request.GET.get("isSaveFile", False))
 
-    trapezoid = TrapezoidMethod()
-    trapezoid.setParams(a, b, c, d)
-    trapezoid.setIntervals(xs, xf, ys, yf)
-    result, executeTime = trapezoid.execute(n, procNum)
-    z = trapezoid.getMatrix()
-    fileHelper = FileHelperForTrapezoid()
-    fileHelper.setParams(xs, xf, ys, yf)
-    fileHelper.setMatrix(z)
-    fileHelper.writeToFiles()
+    result, executeTime, z = __calcTrapezoid__(
+        a, b, c, d, xs, xf, ys, yf, n, procNum)
+
+    if (isSaveFile):
+        __writeFile__(xs, xf, ys, yf, z, request)
 
     return render(request, "calculation/calcSquare.html", {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum})
 
 
 def fullScreenCard(request):
     return render(request, "home/fullScreenCard.html")
+
+
+def __calcTrapezoid__(a, b, c, d, xs, xf, ys, yf, n, procNum):
+    trapezoid = TrapezoidMethod()
+    trapezoid.setParams(a, b, c, d)
+    trapezoid.setIntervals(xs, xf, ys, yf)
+    result, executeTime = trapezoid.execute(n, procNum)
+    z = trapezoid.getMatrix()
+
+    return [result, executeTime, z]
+
+
+def __writeFile__(xs, xf, ys, yf, z, request):
+    xFile, yFile, zFile = request.GET.getlist("Files[]", [])
+    
+    fileHelper = FileHelperForTrapezoid()
+    fileHelper.setParams(xs, xf, ys, yf)
+    fileHelper.setMatrix(z)
+    fileHelper.writeToFiles(xFile, yFile, zFile)

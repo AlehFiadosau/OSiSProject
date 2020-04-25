@@ -1,0 +1,113 @@
+{% load static %}
+<h3>Нахождение площади поверхности</h3>
+<div class="row data-for-surface">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
+                href="#list-home" role="tab" aria-controls="home">
+                Параметры
+                <span class="badge badge-dark hint-for-params">3</span>
+                <span class="badge badge-dark hint-for-params">1</span>
+                <span class="badge badge-dark hint-for-params">5</span>
+                <span class="badge badge-dark hint-for-params">-5</span>
+            </a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+                href="#list-profile" role="tab" aria-controls="profile">
+                Интервалы
+                <span class="badge badge-dark hint-for-intervals">-50</span>
+                <span class="badge badge-dark hint-for-intervals">50</span>
+                <span class="badge badge-dark hint-for-intervals">-70</span>
+                <span class="badge badge-dark hint-for-intervals">70</span>
+            </a>
+            <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+                href="#list-messages" role="tab" aria-controls="messages">
+                Процессы
+                <span class="badge badge-dark hint-for-processes">1</span>
+            </a>
+            <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+                href="#list-settings" role="tab" aria-controls="settings">
+                Доп. настроки
+                <span class="badge badge-dark hint-for-div">100</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                <div class="form-group">
+                    <label for="id_A">Значение A</label>
+                    <input type="number" id="id_A" data-content="params-for-calc-surface" data-value="0"
+                        class="form-control data-for-surface__field" value="3" required>
+                    <label for="id_B">Значение B</label>
+                    <input type="number" id="id_B" data-content="params-for-calc-surface" data-value="1"
+                        class="form-control data-for-surface__field" value="1" required>
+                    <label for="id_C">Значение C</label>
+                    <input type="number" id="id_C" data-content="params-for-calc-surface" data-value="2"
+                        class="form-control data-for-surface__field" value="5" required>
+                    <label for="id_D">Значение D</label>
+                    <input type="number" id="id_D" data-content="params-for-calc-surface" data-value="3"
+                        class="form-control data-for-surface__field" value="-5" required>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                <label for="id_Xs">Начальное значение Х</label>
+                <input type="number" id="id_Xs" data-content="intervals-for-calc-surface" data-value="0"
+                    class="form-control data-for-surface__field" value="-50" required>
+                <label for="id_Xf">Конечное значение Х</label>
+                <input type="number" id="id_Xf" data-content="intervals-for-calc-surface" data-value="1"
+                    class="form-control data-for-surface__field" value="50" required>
+                <label for="id_Ys">Начальное значение Y</label>
+                <input type="number" id="id_Ys" data-content="intervals-for-calc-surface" data-value="2"
+                    class="form-control data-for-surface__field" value="-70" required>
+                <label for="id_Yf">Конечное значение Y</label>
+                <input type="number" id="id_Yf" data-content="intervals-for-calc-surface" data-value="3"
+                    class="form-control data-for-surface__field" value="70" required>
+            </div>
+            <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                <label for="id_Proc">Количество процессов</label>
+                <input type="number" id="id_Proc" data-content="processes-for-calc-surface" data-value="0"
+                    class="form-control data-for-surface__field" value="1" required>
+            </div>
+            <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                <label for="id_N">Делений</label>
+                <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="0"
+                    class="form-control data-for-surface__field" min="1" value="100" required>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="id_IsSaveFile" data-content="result-save" checked>
+                    <label class="custom-control-label" for="id_IsSaveFile">Сохранить результат в файл</label>
+                </div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" data-content="save-as" id="save-as-checked">
+                    <label class="custom-control-label" for="save-as-checked">Сохранить как...</label>
+                </div>
+                <div id="save-as" hidden>
+                    <label for="id_XFile">Сохранение данных X</label>
+                    <div class="input-group mb-3 data-for-surface__field">
+                        <input type="text" class="form-control" id="id_XFile" value="xArray" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">.csv</span>
+                        </div>
+                    </div>
+                    <label for="id_YFile">Сохранение данных Y</label>
+                    <div class="input-group mb-3 data-for-surface__field">
+                        <input type="text" class="form-control" id="id_YFile" value="yArray" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">.csv</span>
+                        </div>
+                    </div>
+                    <label for="id_ZFile">Сохранение данных Z</label>
+                    <div class="input-group mb-3 data-for-surface__field">
+                        <input type="text" class="form-control" id="id_ZFile" value="zArray" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">.csv</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="calc-surface-square">
+    <input type="button" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
+    <img src="{% static "img/icons/icons8-8-32.png" %}" alt="Очередь для выполнения занята" hidden>
+</div>

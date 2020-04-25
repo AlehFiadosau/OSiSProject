@@ -1,9 +1,11 @@
 footer,
 .data-for-surface,
 input.data-for-surface__field,
+div.data-for-surface__field,
 .information-about-project,
 .draw-surface,
-.calc-queue ul li {
+.calc-queue ul li,
+.custom-control {
     margin: 1vw;
 }
 
@@ -76,7 +78,6 @@ div.active {
     display: flex;
 }
 
-
 .information-about-project__minor-content .card {
     position: relative;
     max-width: 18rem;
@@ -91,6 +92,17 @@ div.active {
 
 .data-for-surface {
     margin: 3vw;
+}
+
+#save-as {
+    margin: 1vw;
+    padding: 1vw;
+    width: 20vw;
+    box-shadow: 5px 5px 5px 5px gray;;
+}
+
+.order-execution span{
+    margin: 0 0.5vw;
 }
 
 .calc-queue {
@@ -114,9 +126,8 @@ div.active {
     font-family: Comic Sans MS;
 }
 
-input.data-for-surface__field {
+input.data-for-surface__field, div.data-for-surface__field {
     width: 15vw;
-    border: 2px double green;
     box-shadow: 3px 3px 3px 3px gray;
 }
 

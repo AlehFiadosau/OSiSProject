@@ -5,101 +5,25 @@
 {% block content %}
 {% load static %}
 <div class="calculation">
-    <h3>Нахождение площади поверхности</h3>
-    <div class="row data-for-surface">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
-                    href="#list-home" role="tab" aria-controls="home">
-                    Параметры
-                    <span class="badge badge-dark hint-for-params">3</span>
-                    <span class="badge badge-dark hint-for-params">1</span>
-                    <span class="badge badge-dark hint-for-params">5</span>
-                    <span class="badge badge-dark hint-for-params">-5</span>
-                </a>
-                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                    href="#list-profile" role="tab" aria-controls="profile">
-                    Интервалы
-                    <span class="badge badge-dark hint-for-intervals">-50</span>
-                    <span class="badge badge-dark hint-for-intervals">50</span>
-                    <span class="badge badge-dark hint-for-intervals">-70</span>
-                    <span class="badge badge-dark hint-for-intervals">70</span>
-                </a>
-                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
-                    href="#list-messages" role="tab" aria-controls="messages">
-                    Процессы
-                    <span class="badge badge-dark hint-for-processes">1</span>
-                </a>
-                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                    href="#list-settings" role="tab" aria-controls="settings">
-                    Доп. настроки
-                    <span class="badge badge-dark hint-for-div">100</span>
-                </a>
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-                    <div class="form-group">
-                        <label for="id_A">Значение A</label>
-                        <input type="number" id="id_A" data-content="params-for-calc-surface" data-value="0"
-                            class="form-control data-for-surface__field" value="3" required>
-                        <label for="id_B">Значение B</label>
-                        <input type="number" id="id_B" data-content="params-for-calc-surface" data-value="1"
-                            class="form-control data-for-surface__field" value="1" required>
-                        <label for="id_C">Значение C</label>
-                        <input type="number" id="id_C" data-content="params-for-calc-surface" data-value="2"
-                            class="form-control data-for-surface__field" value="5" required>
-                        <label for="id_D">Значение D</label>
-                        <input type="number" id="id_D" data-content="params-for-calc-surface" data-value="3"
-                            class="form-control data-for-surface__field" value="-5" required>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-                    <label for="id_Xs">Начальное значение Х</label>
-                    <input type="number" id="id_Xs" data-content="intervals-for-calc-surface" data-value="0"
-                        class="form-control data-for-surface__field" value="-50" required>
-                    <label for="id_Xf">Конечное значение Х</label>
-                    <input type="number" id="id_Xf" data-content="intervals-for-calc-surface" data-value="1"
-                        class="form-control data-for-surface__field" value="50" required>
-                    <label for="id_Ys">Начальное значение Y</label>
-                    <input type="number" id="id_Ys" data-content="intervals-for-calc-surface" data-value="2"
-                        class="form-control data-for-surface__field" value="-70" required>
-                    <label for="id_Yf">Конечное значение Y</label>
-                    <input type="number" id="id_Yf" data-content="intervals-for-calc-surface" data-value="3"
-                        class="form-control data-for-surface__field" value="70" required>
-                </div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                    <label for="id_Proc">Количество процессов</label>
-                    <input type="number" id="id_Proc" data-content="processes-for-calc-surface" data-value="0"
-                        class="form-control data-for-surface__field" value="1" required>
-                </div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                    <label for="id_N">Делений</label>
-                    <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="0"
-                        class="form-control data-for-surface__field" value="100" required>
-                </div>
-            </div>
-        </div>
+  {% include 'calculation/calculationData.html'  %}
+  <div class="calc-queue">
+    <div id="clear" class="flex-row__space-between" style="margin: 1vw">
+      <div class="order-execution flex-row__flex-start">
+        <h4>Очередь</h4>
+      </div>
     </div>
-    <input type="button" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
-    <div class="calc-queue">
-        <div id="clear" class="flex-row__flex-start" style="margin: 1vw">
-            <h4>Очередь</h4>
-            <!-- <img src="{% static "img/icons/icons8-5-32.png" %}" data-content="cards-clear"> -->
-        </div>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
-                aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <ul class="calc-queue__list flex-row__flex-start">
-            <li class="calc-queue-item flex-column__center">
-                <div class="calc-queue__card">Пусто</div>
-                <div class="results" id="result-0"></div>
-            </li>
-        </ul>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+        aria-valuemin="0" aria-valuemax="100"></div>
     </div>
-    <!-- <div class="card text-center">
+    <ul class="calc-queue__list flex-row__flex-start">
+      <li data-queue="0" class="calc-queue-item flex-column__center">
+        <div class="calc-queue__card" data-execute="0">Пусто</div>
+        <div class="results" id="result-0"></div>
+      </li>
+    </ul>
+  </div>
+  <!-- <div class="card text-center">
         <div class="card-header">
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">

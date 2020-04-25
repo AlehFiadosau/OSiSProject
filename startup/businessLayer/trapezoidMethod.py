@@ -49,7 +49,7 @@ class TrapezoidMethod():
             yf = self.Ys + h * (index + 1)
             res = p.apply_async(self.calcFromY, (ys, yf, math.ceil(iters)))
             sum += res.get()
-        
+
         p.close()
         p.join()
 
@@ -70,7 +70,7 @@ class TrapezoidMethod():
                 sum += self.calcFromX(y, hx, n, False, False)
 
         return sum * hy
-    
+
     def calcFromX(self, y, hx, n, isStart=False, isFinish=False):
         result = 0
 
@@ -82,7 +82,7 @@ class TrapezoidMethod():
                 result += self.getFunc(x, y) / 2
             else:
                 result += self.getFunc(x, y)
-        
+
         return result * hx
 
     def getFunc(self, x, y):
@@ -101,13 +101,13 @@ class TrapezoidMethod():
         myFyncZnach = []
         funcArray = []
 
-        y = self.Ys
-        for _ in range(countY):
-            x = self.Xs
-            for _ in range(countX):
+        x = self.Xs
+        for _ in range(countX):
+            y = self.Ys
+            for _ in range(countY):
                 funcArray.append(self.getFunc(x, y))
-                x += 1
-            y += 1
+                y += 1
+            x += 1
             myFyncZnach.append(funcArray)
             funcArray = []
 
