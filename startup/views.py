@@ -73,6 +73,8 @@ def calcAnalysis(request):
         a, b, c, d, xs, xf, ys, yf, n, procNum)
 
     analysisData = []
+    procNumbers = []
+    tames = [item.seconds for item in executeTimes]
 
     for index in range(len(results)):
         analysisModel = AnalysisModel()
@@ -80,7 +82,11 @@ def calcAnalysis(request):
         analysisModel.ExecuteTime = executeTimes[index]
         analysisModel.ProcessesNumber = index + 1
 
+        procNumbers.append(index + 1)
         analysisData.append(analysisModel)
+    
+    trapezoid = TrapezoidMethod()
+    trapezoid.drawAnalysis(tames, procNumbers)
 
     return render(request, "analysis/calcAnalysis.html", {"Results": analysisData})
 

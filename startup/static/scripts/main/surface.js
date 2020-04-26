@@ -18,14 +18,18 @@ function drawSurface() {
 
     callbackAjax.complete.func = addSurface;
     callbackAjax.complete.params = [];
-    console.log(1);
-    ajaxQueryCalback("GET", "/getDataForSurface/", "#draw-load", undefined, dataDictionary, resultId, callbackAjax);
+
+    ajaxQueryCalback("GET", "/getDataForSurface/", "#draw-surface-load", "#draw-surface", dataDictionary, resultId, callbackAjax);
 }
 
 function addSurface() {
     let surf = document.querySelector(".img-surface");
     let src = "/static/surfaces/surface.png";
-
     let img = createImg(src);
+
+    if (surf.children.length == 1) {
+        surf.children[0].remove();
+    }
+
     surf.appendChild(img);
 }

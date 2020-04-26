@@ -32,11 +32,15 @@
                     <div class="file-for-surface" id="file-for-surface-2">None</div>
             </div>
         </div>
-        <input type="button" data-content="draw" class="draw-surface btn btn-info" value="Построить">
-        <div id="draw-load" style="display: none; color: green">Построение поверхности...</div>
-        <div id="draw-result__successed"></div>
-        <div id="draw-result__failed"></div>
+        <div>
+            <input type="button" data-content="draw" id="draw-surface" class="draw-surface btn btn-info" value="Построить">
+            <button id="draw-surface-load" class="draw-surface btn btn-success" type="button" style="display: none;" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Построение...
+            </button>
+        </div>
     </div>
+    <div class="img-surface"></div>
 </div>
 
 {% endblock %}
