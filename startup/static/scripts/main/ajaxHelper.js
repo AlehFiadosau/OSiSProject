@@ -1,3 +1,14 @@
+let callbackAjax = {
+    beforeSend: {
+        func: undefined,
+        params: []
+    },
+    complete: {
+        func: undefined,
+        params: []
+    }
+};
+
 function ajaxQuery(ajaxType, ajaxUrl, loadElement, dataDictionary, resultId) {
     $.ajax({
         type: ajaxType,
@@ -17,10 +28,14 @@ function ajaxQuery(ajaxType, ajaxUrl, loadElement, dataDictionary, resultId) {
 }
 
 function ajaxQueryCalback(ajaxType, ajaxUrl, loadElement, completeElement, dataDictionary, resultId, callback) {
-    let beforeSendFunc = callback.beforeSend.func;
-    let beforeSendParams = callback.beforeSend.params;
-    let completeFunc = callback.complete.func;
-    let completeParams = callback.complete.params;
+    let beforeSendFunc, beforeSendParams, completeFunc, completeParams;
+
+    if (callback != undefined) {
+        beforeSendFunc = callback.beforeSend.func;
+        beforeSendParams = callback.beforeSend.params;
+        completeFunc = callback.complete.func;
+        completeParams = callback.complete.params;
+    }
 
     $.ajax({
         type: ajaxType,

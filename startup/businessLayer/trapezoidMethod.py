@@ -57,6 +57,35 @@ class TrapezoidMethod():
 
         return [sum, executeTime]
 
+    def executeAnalysis(self, n, processesNumber):
+        res = 0
+        sum = 0
+        allSum = []
+        executeTimes = []
+
+        for number in range(processesNumber):
+            startTime = datetime.now()
+            currentProcessNumber = number + 1
+
+            iters = n / currentProcessNumber
+            h = (self.Yf - self.Ys) / currentProcessNumber
+            p = Pool(processes=currentProcessNumber)
+
+            for index in range(currentProcessNumber):
+                ys = self.Ys + h * index
+                yf = self.Ys + h * (index + 1)
+                res = p.apply_async(self.calcFromY, (ys, yf, math.ceil(iters)))
+                sum += res.get()
+
+            p.close()
+            p.join()
+
+            executeTimes.append(datetime.now() - startTime)
+            allSum.append(sum)
+            sum = 0
+
+        return [allSum, executeTimes]
+
     def calcFromY(self, ys, yf, n):
         sum = 0
         hy = (yf - ys) / n
@@ -114,13 +143,38 @@ class TrapezoidMethod():
         return myFyncZnach
 
     def draw(self, x, y, z):
-        X, Y = np.meshgrid(x, y)
-        Z = np.array(z)
+        xArray, yArray = np.meshgrid(x, y)
+        zArray = np.array(z)
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(X, Y, np.transpose(Z), cmap='inferno')
+        ax.plot_surface(xArray, yArray, np.transpose(zArray), cmap='inferno')
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
+        fig.savefig("startup/static/surfaces/surface.png")
+
+    def drawAnalysis(self):
+        data_names = ['Москва', 'Санкт-Петербург', 'Сочи', 'Архангельск',
+                      'Владимир', 'Краснодар', 'Курск', 'Воронеж',
+                      'Ставрополь', 'Мурманск']
+
+        data_values = [1076, 979, 222, 189, 137, 134, 124, 124, 91, 79]
+
+        dpi = 80
+        fig = plt.figure(dpi=dpi, figsize=(512 / dpi, 384 / dpi))
+        pyplot.rcParams.update({'font.size': 9})
+
+        plt.title('Распределение кафе по городам России (%)')
+
+        xs = range(len(data_names))
+
+        plt.pie(
+            data_values, autopct='%.1f', radius=1.1,
+            explode=[0.15] + [0 for _ in range(len(data_names) - 1)])
+        plt.legend(
+            bbox_to_anchor=(-0.16, 0.45, 0.25, 0.25),
+            loc='lower left', labels=data_names)
+        fig.savefig('pie.png')
+
         plt.show()
         plt.close()

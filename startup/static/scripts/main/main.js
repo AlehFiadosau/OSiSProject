@@ -12,75 +12,13 @@ document.addEventListener("click", (ev) => {
 
     switch (dataContent) {
         case "calc-surface-square":
-            let A = document.querySelector("#id_A");
-            let B = document.querySelector("#id_B");
-            let C = document.querySelector("#id_C");
-            let D = document.querySelector("#id_D");
-            let Xs = document.querySelector("#id_Xs");
-            let Xf = document.querySelector("#id_Xf");
-            let Ys = document.querySelector("#id_Ys");
-            let Yf = document.querySelector("#id_Yf");
-            let N = document.querySelector("#id_N");
-            let Proc = document.querySelector("#id_Proc");
-            let isSaveFile = document.querySelector("#id_IsSaveFile");
-            let filesArray = [];
-
-            if (isSaveFile.checked) {
-                let XFile = document.querySelector("#id_XFile");
-                let YFile = document.querySelector("#id_YFile");
-                let ZFile = document.querySelector("#id_ZFile");
-                let dir = "Output/";
-                let fileExt = ".csv";
-
-                filesArray.push(dir + XFile.value + fileExt);
-                filesArray.push(dir + YFile.value + fileExt);
-                filesArray.push(dir + ZFile.value + fileExt);
-            }
-
-            dataDictionary = {
-                A: +A.value,
-                B: +B.value,
-                C: +C.value,
-                D: +D.value,
-                Xs: +Xs.value,
-                Xf: +Xf.value,
-                Ys: +Ys.value,
-                Yf: +Yf.value,
-                N: +N.value,
-                Proc: +Proc.value,
-                isSaveFile: isSaveFile.checked,
-                Files: filesArray
-            };
-
-            queueCalc(dataDictionary);
-            let progress = document.querySelector(".progress div");
-            currentProgress += oneProgress;
-
-            progress.setAttribute("style", `width: ${currentProgress}%`);
-            progress.value = currentProgress;
-
-            showWarningCalc();
+            calcSurfaceSquare(currentProgress, oneProgress);
             break;
         case "get-file":
             ajaxQuery("GET", "/getFile/", undefined, undefined, `#file-for-surface-${dataValue}`);
             break;
         case "draw":
-            let filePaths = document.querySelectorAll(".file-for-surface input");
-            if (filePaths.length < 3 || filePaths === null) {
-                dataDictionary = {
-                    Error: "Указаны не все данные",
-                };
-
-                ajaxQuery("GET", "/getDataForSurface/", "#draw-load", dataDictionary, "#draw-result__failed");
-            } else {
-                dataDictionary = {
-                    XPath: filePaths[0].value,
-                    YPath: filePaths[1].value,
-                    ZPath: filePaths[2].value,
-                };
-
-                ajaxQuery("GET", "/getDataForSurface/", "#draw-load", dataDictionary, "#draw-result__successed");
-            }
+            drawSurface();
             break;
         case "full-screen":
             fullScreen(+dataValue);
@@ -90,13 +28,22 @@ document.addEventListener("click", (ev) => {
             break;
         case "card-delete":
             let cardQueues = document.querySelectorAll(".calc-queue__list .calc-queue-item");
-            
             currentProgress -= oneProgress;
             deleteCard(cardQueues, +dataValue, progressBar, oneProgress);
             break;
         case "cards-clear":
             currentProgress = 0;
             cardsClear(progressBar);
+            break;
+        case "fix-calculation":
+            fixCalculation(ev.target);
+            break;
+        case "delete-fix-calc":
+            let dataForCalculation = document.querySelector("#data-for-calculation");
+            dataForCalculation.lastElementChild.remove();
+            break;
+        case "analysis":
+            dataAnalysis();
             break;
     }
 });

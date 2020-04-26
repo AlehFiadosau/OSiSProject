@@ -26,6 +26,9 @@
         <li class="nav-item">
           <a class="nav-link" data-content="nav" href="{% url 'surface' %}" tabindex="-1">Поверхность</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" data-content="nav" href="{% url 'analysis' %}" tabindex="-1">Анализ</a>
+        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
@@ -46,10 +49,14 @@
   <script src="{% static "scripts/bootstrap.min.js" %}"></script>
   <script src="{% static "scripts/bootstrap.bundle.min.js" %}"></script>
 
-  <script src="{% static "scripts/main/classHelper.js" %}"></script>
+  <script src="{% static "scripts/main/htmlHelper.js" %}"></script>
   <script src="{% static "scripts/main/ajaxHelper.js" %}"></script>
-  <script src="{% static "scripts/main/calculation.js" %}"></script>
+
   <script src="{% static "scripts/main/home.js" %}"></script>
+  <script src="{% static "scripts/main/calculation.js" %}"></script>
+  <script src="{% static "scripts/main/surface.js" %}"></script>
+  <script src="{% static "scripts/main/analysis.js" %}"></script>
+  
   <script src="{% static "scripts/main/main.js" %}"></script>
 </body>
 </html>

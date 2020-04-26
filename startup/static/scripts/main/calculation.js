@@ -1,15 +1,56 @@
 let cardMinors = document.querySelectorAll(".information-about-project__minor-content .card");
 let queueNumber = 1;
-let callbackAjax = {
-    beforeSend: {
-        func: undefined,
-        params: []
-    },
-    complete: {
-        func: undefined,
-        params: []
+
+function calcSurfaceSquare(currentProgress, oneProgress) {
+    let A = document.querySelector("#id_A");
+    let B = document.querySelector("#id_B");
+    let C = document.querySelector("#id_C");
+    let D = document.querySelector("#id_D");
+    let Xs = document.querySelector("#id_Xs");
+    let Xf = document.querySelector("#id_Xf");
+    let Ys = document.querySelector("#id_Ys");
+    let Yf = document.querySelector("#id_Yf");
+    let N = document.querySelector("#id_N");
+    let Proc = document.querySelector("#id_Proc");
+    let isSaveFile = document.querySelector("#id_IsSaveFile");
+    let filesArray = [];
+
+    if (isSaveFile.checked) {
+        let XFile = document.querySelector("#id_XFile");
+        let YFile = document.querySelector("#id_YFile");
+        let ZFile = document.querySelector("#id_ZFile");
+        let dir = "Output/";
+        let fileExt = ".csv";
+
+        filesArray.push(dir + XFile.value + fileExt);
+        filesArray.push(dir + YFile.value + fileExt);
+        filesArray.push(dir + ZFile.value + fileExt);
     }
-};
+
+   let  dataDictionary = {
+        A: +A.value,
+        B: +B.value,
+        C: +C.value,
+        D: +D.value,
+        Xs: +Xs.value,
+        Xf: +Xf.value,
+        Ys: +Ys.value,
+        Yf: +Yf.value,
+        N: +N.value,
+        Proc: +Proc.value,
+        isSaveFile: isSaveFile.checked,
+        Files: filesArray
+    };
+
+    queueCalc(dataDictionary);
+    let progress = document.querySelector(".progress div");
+    currentProgress += oneProgress;
+
+    progress.setAttribute("style", `width: ${currentProgress}%`);
+    progress.value = currentProgress;
+
+    showWarningCalc();
+}
 
 function showCard(target) {
     let calcQueueCard = target.parentNode;
@@ -18,12 +59,13 @@ function showCard(target) {
     let showIcon = result.previousElementSibling;
     let showIconImg = document.querySelector(`.${showIcon.classList[0]} img`);
     let cardMinor = document.querySelector(`#${result.id} .card-minor`);
+    let cardMinorParent = cardMinor.parentNode;
 
-    if (cardMinor.getAttribute("hidden") != null) {
-        cardMinor.removeAttribute("hidden");
+    if (cardMinorParent.getAttribute("hidden") != null) {
+        cardMinorParent.removeAttribute("hidden");
         changeImg(showIconImg, "/static/img/icons/icons8-7-32.png");
     } else {
-        cardMinor.setAttribute("hidden", true);
+        cardMinorParent.setAttribute("hidden", true);
         changeImg(showIconImg, "/static/img/icons/icons8-6-32.png");
     }
 }
@@ -88,53 +130,13 @@ function queueCalc(dataDictionary) {
 
     calcQueueCardElements[cardNumbers - 1].appendChild(button);
 
-    callbackAjax.beforeSend.func = beforeSendAjax;
-    callbackAjax.complete.func = afterCompleteAjax;
+    callbackAjax.beforeSend.func = beforeAjaxCalculation;
+    callbackAjax.complete.func = afterAjaxCalculation;
     callbackAjax.complete.params = params;
     queueNumber++;
 
     ajaxQueryCalback("GET", "/calcSquare/", `#load-element-${cardNumbers - 1}`,
         `#complete-element-${cardNumbers - 1}`, dataDictionary, `#result-${cardNumbers - 1}`, callbackAjax);
-}
-
-function createButton(classList, id, attributeNames, attributeValues) {
-    let button = document.createElement("button");
-
-    if (id != undefined) {
-        button.id = id;
-    }
-
-    if (attributeNames != undefined) {
-        for (let index = 0; index < attributeNames.length; index++) {
-            button.setAttribute(attributeNames[index], attributeValues[index]);
-        }
-    }
-
-    for (let index = 0; index < classList.length; index++) {
-        button.classList.add(classList[index]);
-    }
-
-    return button;
-}
-
-function createSpan(classList, attributeNames, attributeValues, id) {
-    let span = document.createElement("span");
-
-    if (id != undefined) {
-        span.id = id;
-    }
-
-    for (let index = 0; index < classList.length; index++) {
-        span.classList.add(classList[index]);
-    }
-
-    if (attributeNames != undefined) {
-        for (let index = 0; index < attributeNames.length; index++) {
-            span.setAttribute(attributeNames[index], attributeValues[index]);
-        }
-    }
-
-    return span;
 }
 
 function createDeleteIcon(cardElement, number) {
@@ -212,33 +214,6 @@ function createEmpthCard() {
     listQueueElements.appendChild(createLi);
 }
 
-function createImg(src, attributeNames, attributeValues, classList, id) {
-    let createImg = document.createElement("img");
-    createImg.src = src;
-
-    if (attributeNames != undefined) {
-        for (let index = 0; index < attributeNames.length; index++) {
-            createImg.setAttribute(attributeNames[index], attributeValues[index]);
-        }
-    }
-
-    if (classList != undefined) {
-        for (let index = 0; index < classList.length; index++) {
-            createImg.classList.add(classList[index]);
-        }
-    }
-
-    if (id != undefined) {
-        createImg.id = id;
-    }
-
-    return createImg;
-}
-
-function changeImg(img, newSrc) {
-    img.src = newSrc;
-}
-
 function deleteClearIcon() {
     let clearElement = document.querySelector("#clear img");
 
@@ -277,13 +252,6 @@ function deleteCard(cardQueues, number, progress, oneProgress) {
     if (loadElements.length == 4) {
         createEmpthCard();
     }
-
-    // let calcQueue = completeElements[number].parentNode;
-    // let executeNumber = +calcQueue.getAttribute("data-execute");
-    // deleteExecuteNumber(executeNumber);
-
-    // cardQueues[number].remove();
-    // showWarningCalc();
 }
 
 function deleteExecuteNumber(number) {
@@ -299,7 +267,7 @@ function deleteExecuteNumber(number) {
     }
 }
 
-function afterCompleteAjax() {
+function afterAjaxCalculation() {
     let params = arguments;
     let calcQueueElements = document.querySelectorAll(".calc-queue-item");
     let lastChild;
@@ -314,18 +282,13 @@ function afterCompleteAjax() {
             createDeleteIcon(calcQueueElements[index], index);
             createShowIcon(lastChild);
             createClearIcon();
-            createExecuteNumber(index+ 1);
+            createExecuteNumber(index + 1);
             break;
         }
     }
-
-    // createDeleteIcon(calcQueueElements[params[0]], params[0]);
-    // createShowIcon(lastChild);
-    // createClearIcon();
-    // createExecuteNumber(+params[0] + 1);
 }
 
-function beforeSendAjax() {
+function beforeAjaxCalculation() {
     deleteClearIcon();
 }
 
@@ -367,4 +330,30 @@ function showWarningCalc() {
         calcSurfaceSquareInput.removeAttribute("disabled");
         calcSurfaceSquareIcon.setAttribute("hidden", true);
     }
+}
+
+function fixCalculation(target) {
+    let parent = target.parentNode;
+    let dataForCalculation = document.querySelector("#data-for-calculation");
+
+    if (dataForCalculation.children.length == 2) {
+        dataForCalculation.lastElementChild.remove();
+    }
+
+    let parentClone = parent.cloneNode(true);
+
+    let attrNames = ["data-content"];
+    let attrVal = ["delete-fix-calc"];
+    let src = "/static/img/icons/icons8-10-32.png";
+    let img = createImg(src, attrNames, attrVal);
+
+    parentClone.classList.remove("flex-column__flex-end");
+    parentClone.classList.add("flex-column__flex-start");
+    parentClone.setAttribute("style", "flex-grow: 1;");
+    parentClone.firstElementChild.remove();
+
+    let firstChild = parentClone.firstElementChild;
+    firstChild.before(img);
+
+    dataForCalculation.appendChild(parentClone);
 }

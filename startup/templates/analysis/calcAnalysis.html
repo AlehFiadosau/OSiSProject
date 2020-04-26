@@ -1,0 +1,19 @@
+{% load static %}
+<div>
+    <ul class="flex-row__space-around-wrap">
+        {% for item in Results %}
+        <li>
+            <div class="card-minor card text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">
+                    Площадь поверхности
+                </div>
+                <ul class="list-group list-group-flush text-white bg-dark mb-3">
+                  <li class="list-group-item text-white bg-dark mb-3">Значение: {{ item.Result }}</li>
+                  <li class="list-group-item text-white bg-dark mb-3">Время расчета: {{ item.ExecuteTime }}</li>
+                  <li class="list-group-item text-white bg-dark mb-3">Количество процессов: {{ item.ProcessesNumber }}</li>
+                </ul>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,5 +1,4 @@
 {% load static %}
-<h3>Нахождение площади поверхности</h3>
 <div id="data-for-calculation" class="flex-row__center">
     <div style="flex-grow: 3;">
         <div class="row data-for-surface">
@@ -35,7 +34,8 @@
             </div>
             <div class="col-8">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel"
+                        aria-labelledby="list-home-list">
                         <div class="form-group">
                             <label for="id_A">Значение A</label>
                             <input type="number" id="id_A" data-content="params-for-calc-surface" data-value="0"
@@ -74,44 +74,16 @@
                         <label for="id_N">Делений</label>
                         <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="0"
                             class="form-control data-for-surface__field" min="1" value="100" required>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="id_IsSaveFile" data-content="result-save" checked>
-                            <label class="custom-control-label" for="id_IsSaveFile">Сохранить результат в файл</label>
-                        </div>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" data-content="save-as" id="save-as-checked">
-                            <label class="custom-control-label" for="save-as-checked">Сохранить как...</label>
-                        </div>
-                        <div id="save-as" hidden>
-                            <label for="id_XFile">Сохранение данных X</label>
-                            <div class="input-group mb-3 data-for-surface__field">
-                                <input type="text" class="form-control" id="id_XFile" value="xArray" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">.csv</span>
-                                </div>
-                            </div>
-                            <label for="id_YFile">Сохранение данных Y</label>
-                            <div class="input-group mb-3 data-for-surface__field">
-                                <input type="text" class="form-control" id="id_YFile" value="yArray" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">.csv</span>
-                                </div>
-                            </div>
-                            <label for="id_ZFile">Сохранение данных Z</label>
-                            <div class="input-group mb-3 data-for-surface__field">
-                                <input type="text" class="form-control" id="id_ZFile" value="zArray" required>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">.csv</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="calc-surface-square">
-            <input type="button" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
-            <img src="{% static "img/icons/icons8-8-32.png" %}" alt="Очередь для выполнения занята" hidden>
+        <div>
+            <input type="button" class="analysis btn btn-primary" data-content="analysis" value="Анализ">
+            <button class="execute-analysis btn btn-success" type="button" style="display: none;" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Выполнение...
+            </button>
         </div>
     </div>
 </div>

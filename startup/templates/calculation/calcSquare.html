@@ -1,6 +1,7 @@
 {% load static %}
-<div class="flex-row__space-around">
-    <div class="card-minor card text-white bg-info mb-3" style="max-width: 18rem;" hidden>
+<div class="flex-column__flex-end" hidden>
+    <img src="{% static "img/icons/icons8-9-32.png" %}" data-content="fix-calculation">
+    <div class="card-minor card text-white bg-info mb-3" style="max-width: 18rem;">
         <div class="card-header">
             Площадь поверхности
         </div>
@@ -10,6 +11,7 @@
           <li class="list-group-item text-white bg-dark mb-3">Количество процессов: {{ ProcNum }}</li>
           <li class="list-group-item text-white bg-dark mb-3">
               <input type="button" class="btn btn-info" value="Подробнее"/>
+              <input type="button" class="btn btn-secondary" value="Анализ"/>
           </li>
         </ul>
     </div>
