@@ -28,8 +28,9 @@ def getFile(request):
         <input type='hidden' value="{0}"/>
         <div class="path">{1}</div>
     """
+    data = html.format(path, fileName)
 
-    return HttpResponse(html.format(path, fileName))
+    return HttpResponse(data)
 
 
 def getDataForSurface(request):
@@ -88,7 +89,9 @@ def calcAnalysis(request):
     trapezoid = TrapezoidMethod()
     trapezoid.drawAnalysis(tames, procNumbers)
 
-    return render(request, "analysis/calcAnalysis.html", {"Results": analysisData})
+    data = {"Results": analysisData}
+
+    return render(request, "analysis/calcAnalysis.html", context=data)
 
 
 def calcSquare(request):
@@ -100,7 +103,7 @@ def calcSquare(request):
     xf = int(request.GET.get("Xf", 1))
     ys = int(request.GET.get("Ys", 1))
     yf = int(request.GET.get("Yf", 1))
-    n = int(request.GET.get("N", 1))
+    n = float(request.GET.get("N", 1))
     procNum = int(request.GET.get("Proc", 1))
     isSaveFile = bool(request.GET.get("isSaveFile", False))
 
@@ -110,18 +113,20 @@ def calcSquare(request):
     if (isSaveFile):
         __writeFile__(xs, xf, ys, yf, z, request)
 
-    return render(request, "calculation/calcSquare.html", {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum})
+    data = {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum}
+
+    return render(request, "calculation/calcSquare.html", context=data)
 
 
 def fullScreenCard(request):
     return render(request, "home/fullScreenCard.html")
 
 
-def __calcTrapezoid__(a, b, c, d, xs, xf, ys, yf, n, procNum):
+def __calcTrapezoid__(a, b, c, d, xs, xf, ys, yf, step, procNum):
     trapezoid = TrapezoidMethod()
     trapezoid.setParams(a, b, c, d)
     trapezoid.setIntervals(xs, xf, ys, yf)
-    result, executeTime = trapezoid.execute(n, procNum)
+    result, executeTime = trapezoid.execute(step, procNum)
     z = trapezoid.getMatrix()
 
     return [result, executeTime, z]

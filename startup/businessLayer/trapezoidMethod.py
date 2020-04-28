@@ -34,28 +34,31 @@ class TrapezoidMethod():
         self.Ys = ys
         self.Yf = yf
 
-    def execute(self, n, processesNumber):
+    def execute(self, step, processesNumber):
         sum = 0
-        res = 0
+        currentRes = 0
+
+        n = (self.Yf - self.Ys) / step
+        m = (self.Xf - self.Xs) / step
+        h = (self.Yf - self.Ys) / processesNumber
+        itersToN = n / processesNumber
 
         startTime = datetime.now()
 
-        iters = n / processesNumber
-        h = (self.Yf - self.Ys) / processesNumber
         p = Pool(processes=processesNumber)
-
         for index in range(processesNumber):
             ys = self.Ys + h * index
             yf = self.Ys + h * (index + 1)
-            res = p.apply_async(self.calcFromY, (ys, yf, math.ceil(iters)))
-            sum += res.get()
+            currentRes = p.apply_async(self.calcFromY, (ys, yf, step, int(itersToN), int(m)))
+            sum += currentRes.get() * processesNumber
+        result = (sum * step * step) / processesNumber
 
         p.close()
         p.join()
 
         executeTime = datetime.now() - startTime
 
-        return [sum, executeTime]
+        return [result, executeTime]
 
     def executeAnalysis(self, n, processesNumber):
         res = 0
@@ -86,37 +89,62 @@ class TrapezoidMethod():
 
         return [allSum, executeTimes]
 
-    def calcFromY(self, ys, yf, n):
+    def calcFromY(self, ys, yf, step, n, m):
         sum = 0
-        hy = (yf - ys) / n
-        hx = (self.Xf - self.Xs) / n
 
-        for index in range(n):
-            y = ys + hy * index
-            if (index == 0 or index == n):
-                sum += self.calcFromX(y, hx, n, True, False)
+        if (ys == self.Ys and yf == self.Yf):
+            sum = self.targetCalcFromY(ys, yf, step, n, m)
+        elif (ys != self.Ys and yf == self.Yf):
+            sum = self.targetCalcFromY(ys, yf, step, n, m)
+        else:
+            sum = self.targetCalcFromY(ys, yf, step, n - 1, m)
+
+        return sum
+    
+    def targetCalcFromY(self, ys, yf, step, n, m):
+        sum = 0
+        state = 0
+
+        for index in range(n + 1):
+            y = ys + step * index
+            if (index > 0 and index < n):
+                state = 1
+            elif (index == 0):
+                if (ys == self.Ys):
+                    state = 2
+                else:
+                    state = 1
+            elif (index == n):
+                if (yf == self.Yf):
+                    state = 2
+                else:
+                    state = 1
             else:
-                sum += self.calcFromX(y, hx, n, False, False)
+                state = 0
+            sum += self.calcFromX(y, ys, yf, step, m, state)
 
-        return sum * hy
+        return sum
 
-    def calcFromX(self, y, hx, n, isStart=False, isFinish=False):
-        result = 0
+    def calcFromX(self, y, ys, yf, step, m, state):
+        sum = 0
+        approx = 0
 
-        for index in range(n):
-            x = self.Xs + hx * index
-            if (isStart and index == 0 or isFinish and index == n):
-                result += self.getFunc(x, y) / 4
-            elif (isFinish or isStart):
-                result += self.getFunc(x, y) / 2
+        for index in range(m + 1):
+            x = self.Xs + step * index
+            if (index > 0 and index < m and state == 1):
+                approx = 1
+            elif (index == 0 and index == m and state == 1):
+                approx = 1
+            elif ((index == 0 or index == m) and state == 2):
+                approx = 0.25
             else:
-                result += self.getFunc(x, y)
-
-        return result * hx
+                approx = 0.5
+            sum += approx * self.getFunc(x, y)
+        
+        return sum
 
     def getFunc(self, x, y):
-        result = self.A * math.pow(x, 2) + self.B * \
-            math.pow(y, 2) + self.C * x + self.D * y
+        result = self.A * math.pow(x, 2) + self.B * math.pow(y, 2) + self.C * x + self.D * y
 
         return result
 
