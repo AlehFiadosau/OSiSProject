@@ -1,14 +1,11 @@
-from scipy.interpolate import interp1d
-from mpl_toolkits.mplot3d import axes3d
 from datetime import datetime
-import time
-import struct
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
 import math
 import matplotlib
 from multiprocessing import Pool
+from .fileHelper import FileHelperForTrapezoid
+import os.path
 matplotlib.use('TkAgg')
 
 
@@ -37,6 +34,7 @@ class TrapezoidMethod():
     def execute(self, step, processesNumber):
         sum = 0
         currentRes = 0
+        dataForWrite = []
 
         n = (self.Yf - self.Ys) / step
         m = (self.Xf - self.Xs) / step
@@ -51,12 +49,14 @@ class TrapezoidMethod():
             yf = self.Ys + h * (index + 1)
             currentRes = p.apply_async(self.calcFromY, (ys, yf, step, int(itersToN), int(m)))
             sum += currentRes.get() * processesNumber
+            dataForWrite.append(currentRes.get() * processesNumber)
         result = (sum * step * step) / processesNumber
-
         p.close()
         p.join()
 
         executeTime = datetime.now() - startTime
+
+        self.writeFile(dataForWrite)
 
         return [result, executeTime]
 
@@ -125,6 +125,15 @@ class TrapezoidMethod():
 
         return sum
 
+    def writeFile(self, result):
+        path = './Output/square.csv'
+        isExit = os.path.isfile(path)
+        if (isExit):
+            os.remove(path)
+
+        fileHilper = FileHelperForTrapezoid()
+        fileHilper.writeToFile(result)
+
     def calcFromX(self, y, ys, yf, step, m, state):
         sum = 0
         approx = 0
@@ -144,7 +153,22 @@ class TrapezoidMethod():
         return sum
 
     def getFunc(self, x, y):
-        result = self.A * math.pow(x, 2) + self.B * math.pow(y, 2) + self.C * x + self.D * y
+        result = math.sqrt(1 + self.getFuncForX(x)**2 + self.getFuncForY(y)**2)
+
+        return result
+
+    def getFuncForX(self, x):
+        result = self.A * 2 * x + self.C
+
+        return result
+    
+    def getFuncForY(self, y):
+        result = self.B * 2 * y + self.D
+
+        return result
+    
+    def getFuncForWrite(self, x, y):
+        result = self.A * x**2 + self.B * y**2 + self.C * x + self.D * y
 
         return result
 
@@ -162,7 +186,7 @@ class TrapezoidMethod():
         for _ in range(countX):
             y = self.Ys
             for _ in range(countY):
-                funcArray.append(self.getFunc(x, y))
+                funcArray.append(self.getFuncForWrite(x, y))
                 y += 1
             x += 1
             myFyncZnach.append(funcArray)

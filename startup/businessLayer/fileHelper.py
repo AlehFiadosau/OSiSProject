@@ -46,6 +46,11 @@ class FileHelperForTrapezoid():
             for row in range(x):
                 writer.writerow(map(lambda val: val, z[row]))
 
+    def writeToFile(self, result, squarePath="Output/square.csv"):
+        with open(squarePath, "a", newline='') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerows(map(lambda val: [val], result))
+
     def readOfFiles(self,
                    xArraysPath="Output/xArray.csv",
                    yArraysPath="Output/yArray.csv",

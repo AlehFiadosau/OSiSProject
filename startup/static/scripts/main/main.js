@@ -12,7 +12,7 @@ document.addEventListener("click", (ev) => {
 
     switch (dataContent) {
         case "calc-surface-square":
-            calcSurfaceSquare(currentProgress, oneProgress);
+            calcSurfaceSquare(oneProgress);
             break;
         case "get-file":
             ajaxQuery("GET", "/getFile/", undefined, undefined, `#file-for-surface-${dataValue}`);

@@ -1,7 +1,7 @@
 let cardMinors = document.querySelectorAll(".information-about-project__minor-content .card");
 let queueNumber = 1;
 
-function calcSurfaceSquare(currentProgress, oneProgress) {
+function calcSurfaceSquare(oneProgress) {
     let A = document.querySelector("#id_A");
     let B = document.querySelector("#id_B");
     let C = document.querySelector("#id_C");
@@ -14,7 +14,8 @@ function calcSurfaceSquare(currentProgress, oneProgress) {
     let Proc = document.querySelector("#id_Proc");
     let isSaveFile = document.querySelector("#id_IsSaveFile");
     let filesArray = [];
-
+    let execute;
+    
     if (isSaveFile.checked) {
         let XFile = document.querySelector("#id_XFile");
         let YFile = document.querySelector("#id_YFile");
@@ -42,7 +43,9 @@ function calcSurfaceSquare(currentProgress, oneProgress) {
         Files: filesArray
     };
 
-    queueCalc(dataDictionary);
+    execute = queueCalc();
+    cardExecute(execute.cardNumbers, dataDictionary, execute.callbackAjax);
+
     let progress = document.querySelector(".progress div");
     currentProgress += oneProgress;
 
@@ -84,7 +87,7 @@ function cardsMinorsEvents(cardMinors) {
     }
 }
 
-function queueCalc(dataDictionary) {
+function queueCalc() {
     let calcQueueCardElements = document.querySelectorAll(".calc-queue__card");
     let listCalcQueue = document.querySelector(".calc-queue__list");
     let cardNumbers = listCalcQueue.children.length;
@@ -110,7 +113,7 @@ function queueCalc(dataDictionary) {
     let classList = ["load-element", "btn", "btn-info"];
     let id = `load-element-${cardNumbers - 1}`;
     let button = createButton(classList, id);
-    button.innerText = "Вычисление..."
+    button.innerText = "Вычисление...";
 
     classList = ["spinner-border", "spinner-border-sm"];
     let attributeNames = ["role", "aria-hidden"];
@@ -126,7 +129,7 @@ function queueCalc(dataDictionary) {
     attributeNames = ["data-content", "data-value", "style"];
     attributeValues = ["show-card", cardNumbers - 1, "display: none;"];
     button = createButton(classList, id, attributeNames, attributeValues);
-    button.innerText = "Вычисление завершено"
+    button.innerText = "Вычисление завершено";
 
     calcQueueCardElements[cardNumbers - 1].appendChild(button);
 
@@ -135,8 +138,15 @@ function queueCalc(dataDictionary) {
     callbackAjax.complete.params = params;
     queueNumber++;
 
-    ajaxQueryCalback("GET", "/calcSquare/", `#load-element-${cardNumbers - 1}`,
-        `#complete-element-${cardNumbers - 1}`, dataDictionary, `#result-${cardNumbers - 1}`, callbackAjax);
+    return {
+        cardNumbers: cardNumbers - 1,
+        callbackAjax: callbackAjax
+    }
+}
+
+function cardExecute(cardNumbers, dataDictionary, callbackAjax) {
+    ajaxQueryCalback("GET", "/calcSquare/", `#load-element-${cardNumbers}`,
+        `#complete-element-${cardNumbers}`, dataDictionary, `#result-${cardNumbers}`, callbackAjax);
 }
 
 function createDeleteIcon(cardElement, number) {
