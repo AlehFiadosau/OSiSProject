@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import matplotlib
-from multiprocessing import Pool
+from multiprocessing import Pool, Value, Process
 from .fileHelper import FileHelperForTrapezoid
 import os.path
 matplotlib.use('TkAgg')
@@ -33,8 +33,9 @@ class TrapezoidMethod():
 
     def execute(self, step, processesNumber):
         sum = 0
-        currentRes = 0
+        processes = []
         dataForWrite = []
+        num = Value('f', 0.0)
 
         n = (self.Yf - self.Ys) / step
         m = (self.Xf - self.Xs) / step
@@ -43,16 +44,17 @@ class TrapezoidMethod():
 
         startTime = datetime.now()
 
-        p = Pool(processes=processesNumber)
         for index in range(processesNumber):
             ys = self.Ys + h * index
             yf = self.Ys + h * (index + 1)
-            currentRes = p.apply_async(self.calcFromY, (ys, yf, step, int(itersToN), int(m)))
-            sum += currentRes.get() * processesNumber
-            dataForWrite.append(currentRes.get() * processesNumber)
-        result = (sum * step * step) / processesNumber
-        p.close()
-        p.join()
+            p = Process(target=self.calcFromY, args=(ys, yf, step, int(itersToN), int(m), num))
+            processes.append(p)
+            p.start()
+        for proc in processes:
+            proc.join()
+            dataForWrite.append(num.value * processesNumber)
+            sum += num.value
+        result = (sum * step * step)
 
         executeTime = datetime.now() - startTime
 
@@ -60,11 +62,15 @@ class TrapezoidMethod():
 
         return [result, executeTime]
 
-    def executeAnalysis(self, n, processesNumber):
+    def executeAnalysis(self, step, processesNumber):
         res = 0
         sum = 0
         allSum = []
         executeTimes = []
+
+        n = (self.Yf - self.Ys) / step
+        m = (self.Xf - self.Xs) / step
+        h = (self.Yf - self.Ys) / processesNumber
 
         for number in range(processesNumber):
             startTime = datetime.now()
@@ -77,7 +83,7 @@ class TrapezoidMethod():
             for index in range(currentProcessNumber):
                 ys = self.Ys + h * index
                 yf = self.Ys + h * (index + 1)
-                res = p.apply_async(self.calcFromY, (ys, yf, math.ceil(iters)))
+                res = p.apply_async(self.calcFromY, (ys, yf, step, int(iters), int(m)))
                 sum += res.get()
 
             p.close()
@@ -89,17 +95,15 @@ class TrapezoidMethod():
 
         return [allSum, executeTimes]
 
-    def calcFromY(self, ys, yf, step, n, m):
+    def calcFromY(self, ys, yf, step, n, m, num):
         sum = 0
-
         if (ys == self.Ys and yf == self.Yf):
             sum = self.targetCalcFromY(ys, yf, step, n, m)
         elif (ys != self.Ys and yf == self.Yf):
             sum = self.targetCalcFromY(ys, yf, step, n, m)
         else:
             sum = self.targetCalcFromY(ys, yf, step, n - 1, m)
-
-        return sum
+        num.value = sum
     
     def targetCalcFromY(self, ys, yf, step, n, m):
         sum = 0

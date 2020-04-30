@@ -1,5 +1,5 @@
 from .trapezoidMethod import TrapezoidMethod
-from Cryptodome.Cipher import DES
+from Crypto.Cipher import DES
 
 class Analysis():
     Token = ""

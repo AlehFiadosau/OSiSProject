@@ -67,11 +67,11 @@ def calcAnalysis(request):
     xf = int(request.GET.get("Xf", 1))
     ys = int(request.GET.get("Ys", 1))
     yf = int(request.GET.get("Yf", 1))
-    n = int(request.GET.get("N", 1))
+    step = float(request.GET.get("N", 0.1))
     procNum = int(request.GET.get("Proc", 1))
 
     results, executeTimes = __calcAnalysis__(
-        a, b, c, d, xs, xf, ys, yf, n, procNum)
+        a, b, c, d, xs, xf, ys, yf, step, procNum)
 
     analysisData = []
     procNumbers = []
