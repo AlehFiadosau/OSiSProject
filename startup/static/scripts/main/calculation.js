@@ -13,6 +13,7 @@ function calcSurfaceSquare(oneProgress) {
     let N = document.querySelector("#id_N");
     let Proc = document.querySelector("#id_Proc");
     let isSaveFile = document.querySelector("#id_IsSaveFile");
+    let isShowApprox = document.querySelector("#id_IsShowIntegral");
     let filesArray = [];
     let execute;
     
@@ -39,7 +40,8 @@ function calcSurfaceSquare(oneProgress) {
         Yf: +Yf.value,
         N: +N.value,
         Proc: +Proc.value,
-        isSaveFile: isSaveFile.checked,
+        SaveFile: isSaveFile.checked,
+        ShowApprox: isShowApprox.checked,
         Files: filesArray
     };
 

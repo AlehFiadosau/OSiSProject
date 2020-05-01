@@ -6,6 +6,7 @@ import matplotlib
 from multiprocessing import Pool, Value, Process
 from .fileHelper import FileHelperForTrapezoid
 import os.path
+from scipy import integrate
 matplotlib.use('TkAgg')
 
 
@@ -31,133 +32,92 @@ class TrapezoidMethod():
         self.Ys = ys
         self.Yf = yf
 
-    def execute(self, step, processesNumber):
-        sum = 0
+    def execute(self, n, processesNumber):
+        resSum = 0
         processes = []
         dataForWrite = []
         num = Value('f', 0.0)
 
-        n = (self.Yf - self.Ys) / step
-        m = (self.Xf - self.Xs) / step
+        hy = (self.Yf - self.Ys) / n
+        hx = (self.Xf - self.Xs) / n
+        x = np.linspace(self.Xs, self.Xf, n)
         h = (self.Yf - self.Ys) / processesNumber
         itersToN = n / processesNumber
 
         startTime = datetime.now()
-
         for index in range(processesNumber):
             ys = self.Ys + h * index
-            yf = self.Ys + h * (index + 1)
-            p = Process(target=self.calcFromY, args=(ys, yf, step, int(itersToN), int(m), num))
+            p = Process(target=self.calcFromY, args=(x, ys, hy, hx, int(itersToN), num))
             processes.append(p)
             p.start()
         for proc in processes:
             proc.join()
-            dataForWrite.append(num.value * processesNumber)
-            sum += num.value
-        result = (sum * step * step)
-
+            dataForWrite.append(num.value)
+            resSum += num.value
         executeTime = datetime.now() - startTime
 
         self.writeFile(dataForWrite)
 
-        return [result, executeTime]
+        integral = integrate.dblquad(self.getFunc, -70, 70, lambda x: -50, lambda x: 50)
 
-    def executeAnalysis(self, step, processesNumber):
-        res = 0
-        sum = 0
+        return [resSum, executeTime, integral[0]]
+
+    def executeAnalysis(self, n, processesNumber):
+        resSum = 0
         allSum = []
+        processes = []
         executeTimes = []
+        num = Value('f', 0.0)
 
-        n = (self.Yf - self.Ys) / step
-        m = (self.Xf - self.Xs) / step
+        hy = (self.Yf - self.Ys) / n
+        hx = (self.Xf - self.Xs) / n
+        x = np.linspace(self.Xs, self.Xf, n)
         h = (self.Yf - self.Ys) / processesNumber
 
         for number in range(processesNumber):
-            startTime = datetime.now()
             currentProcessNumber = number + 1
 
             iters = n / currentProcessNumber
             h = (self.Yf - self.Ys) / currentProcessNumber
-            p = Pool(processes=currentProcessNumber)
 
+            startTime = datetime.now()
             for index in range(currentProcessNumber):
                 ys = self.Ys + h * index
-                yf = self.Ys + h * (index + 1)
-                res = p.apply_async(self.calcFromY, (ys, yf, step, int(iters), int(m)))
-                sum += res.get()
-
-            p.close()
-            p.join()
-
+                p = Process(target=self.calcFromY, args=(x, ys, hy, hx, int(iters), num))
+                processes.append(p)
+                p.start()
+            for proc in processes:
+                proc.join()
+                resSum += num.value
             executeTimes.append(datetime.now() - startTime)
-            allSum.append(sum)
-            sum = 0
+
+            allSum.append(resSum)
+            resSum = 0
+            processes = []
 
         return [allSum, executeTimes]
 
-    def calcFromY(self, ys, yf, step, n, m, num):
-        sum = 0
-        if (ys == self.Ys and yf == self.Yf):
-            sum = self.targetCalcFromY(ys, yf, step, n, m)
-        elif (ys != self.Ys and yf == self.Yf):
-            sum = self.targetCalcFromY(ys, yf, step, n, m)
-        else:
-            sum = self.targetCalcFromY(ys, yf, step, n - 1, m)
-        num.value = sum
-    
-    def targetCalcFromY(self, ys, yf, step, n, m):
-        sum = 0
-        state = 0
+    def calcFromY(self, x, ys, hy, hx, n, num):
+        res = []
 
         for index in range(n + 1):
-            y = ys + step * index
-            if (index > 0 and index < n):
-                state = 1
-            elif (index == 0):
-                if (ys == self.Ys):
-                    state = 2
-                else:
-                    state = 1
-            elif (index == n):
-                if (yf == self.Yf):
-                    state = 2
-                else:
-                    state = 1
-            else:
-                state = 0
-            sum += self.calcFromX(y, ys, yf, step, m, state)
+            y = ys + hy * index
+            res.append(self.calcFromX(x, y, hx))
 
-        return sum
+        num.value = hy * sum(res)
 
-    def writeFile(self, result):
-        path = './Output/square.csv'
-        isExit = os.path.isfile(path)
-        if (isExit):
-            os.remove(path)
+    def calcFromX(self, x, y, hx):
+        resSum = 0
 
-        fileHilper = FileHelperForTrapezoid()
-        fileHilper.writeToFile(result)
+        res = self.getFunc(x, y)
+        res[0] = res[0] / 2
+        res[len(res) - 1] = res[len(res) - 1] / 2
+        resSum = hx * sum(res)
 
-    def calcFromX(self, y, ys, yf, step, m, state):
-        sum = 0
-        approx = 0
-
-        for index in range(m + 1):
-            x = self.Xs + step * index
-            if (index > 0 and index < m and state == 1):
-                approx = 1
-            elif (index == 0 and index == m and state == 1):
-                approx = 1
-            elif ((index == 0 or index == m) and state == 2):
-                approx = 0.25
-            else:
-                approx = 0.5
-            sum += approx * self.getFunc(x, y)
-        
-        return sum
+        return resSum
 
     def getFunc(self, x, y):
-        result = math.sqrt(1 + self.getFuncForX(x)**2 + self.getFuncForY(y)**2)
+        result = np.sqrt(1 + self.getFuncForX(x)**2 + self.getFuncForY(y)**2)
 
         return result
 
@@ -212,7 +172,17 @@ class TrapezoidMethod():
         plt.close()
 
     def drawAnalysis(self, times, procNumbers):
+        procNumbers = [str(item) for item in procNumbers]
         plt.bar(procNumbers, times)
 
         plt.show()
         plt.close()
+
+    def writeFile(self, result):
+        path = './Output/square.csv'
+        isExit = os.path.isfile(path)
+        if (isExit):
+            os.remove(path)
+
+        fileHilper = FileHelperForTrapezoid()
+        fileHilper.writeToFile(result)

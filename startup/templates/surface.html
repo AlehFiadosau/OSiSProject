@@ -6,14 +6,19 @@
 {% load static %}
 <div class="flex-row__flex-start">
     <div class="surface">
-        <h3>Построение поверхности</h3>
+        <div class="flex-row__space-around">
+            <h3>Построение поверхности</h3>
+        </div>
         <div class="surface__get-data">
             <div>
                 <p>Значения Х</p>
                 <div class="flex-row__flex-start">
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="0"
                         alt="Добавить файл с данными X">
-                    <div class="file-for-surface" id="file-for-surface-0">None</div>
+                    <div class="file-for-surface" id="file-for-surface-0">
+                        <input type="hidden" value="./Output/xArray.csv"/>
+                        <div class="path">xArray.csv</div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -21,7 +26,10 @@
                 <div class="flex-row__flex-start">
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="1"
                         alt="Добавить файл с данными Y">
-                    <div class="file-for-surface" id="file-for-surface-1">None</div>
+                    <div class="file-for-surface" id="file-for-surface-1">
+                        <input type="hidden" value="./Output/yArray.csv"/>
+                        <div class="path">yArray.csv</div>
+                    </div>
                 </div>
             </div>
             <div>
@@ -29,7 +37,10 @@
                 <di class="flex-row__flex-start">
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="2"
                         alt="Добавить файл с данными Z">
-                    <div class="file-for-surface" id="file-for-surface-2">None</div>
+                    <div class="file-for-surface" id="file-for-surface-2">
+                        <input type="hidden" value="./Output/zArray.csv"/>
+                        <div class="path">zArray.csv</div>
+                    </div>
             </div>
         </div>
         <div>

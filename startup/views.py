@@ -6,6 +6,7 @@ from .businessLayer.trapezoidMethod import TrapezoidMethod
 from .businessLayer.fileHelper import FileHelperForTrapezoid
 from .businessLayer.models.analysisModel import AnalysisModel
 from multiprocessing import Pool
+import math
 
 
 def home(request):
@@ -25,7 +26,7 @@ def getFile(request):
     root.destroy()
     fileName = path.split("/").pop()
     html = """
-        <input type='hidden' value="{0}"/>
+        <input type="hidden" value="{0}"/>
         <div class="path">{1}</div>
     """
     data = html.format(path, fileName)
@@ -67,11 +68,11 @@ def calcAnalysis(request):
     xf = int(request.GET.get("Xf", 1))
     ys = int(request.GET.get("Ys", 1))
     yf = int(request.GET.get("Yf", 1))
-    step = float(request.GET.get("N", 0.1))
+    n = int(request.GET.get("N", 0.1))
     procNum = int(request.GET.get("Proc", 1))
 
     results, executeTimes = __calcAnalysis__(
-        a, b, c, d, xs, xf, ys, yf, step, procNum)
+        a, b, c, d, xs, xf, ys, yf, n, procNum)
 
     analysisData = []
     procNumbers = []
@@ -103,19 +104,23 @@ def calcSquare(request):
     xf = int(request.GET.get("Xf", 1))
     ys = int(request.GET.get("Ys", 1))
     yf = int(request.GET.get("Yf", 1))
-    n = float(request.GET.get("N", 1))
+    n = int(request.GET.get("N", 1))
     procNum = int(request.GET.get("Proc", 1))
-    isSaveFile = bool(request.GET.get("isSaveFile", False))
-
-    result, executeTime, z = __calcTrapezoid__(
+    isSaveFile = request.GET.get("SaveFile", "false")
+    isShowApprox = request.GET.get("ShowApprox", "false")
+    result, executeTime, integral, z = __calcTrapezoid__(
         a, b, c, d, xs, xf, ys, yf, n, procNum)
 
-    if (isSaveFile):
+    if (isSaveFile == "true"):
         __writeFile__(xs, xf, ys, yf, z, request)
 
-    data = {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum}
-
-    return render(request, "calculation/calcSquare.html", context=data)
+    if (isShowApprox == "true"):
+        approx = math.fabs(result - integral)
+        data = {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum, "Integral": integral, "Approx": approx}
+        return render(request, "calculation/calcSquareWithApprox.html", context=data)
+    else:
+        data = {"Result": result, "ExecuteTime": executeTime, "ProcNum": procNum}
+        return render(request, "calculation/calcSquare.html", context=data)
 
 
 def fullScreenCard(request):
@@ -126,10 +131,10 @@ def __calcTrapezoid__(a, b, c, d, xs, xf, ys, yf, step, procNum):
     trapezoid = TrapezoidMethod()
     trapezoid.setParams(a, b, c, d)
     trapezoid.setIntervals(xs, xf, ys, yf)
-    result, executeTime = trapezoid.execute(step, procNum)
+    result, executeTime, integral = trapezoid.execute(step, procNum)
     z = trapezoid.getMatrix()
 
-    return [result, executeTime, z]
+    return [result, executeTime, integral, z]
 
 
 def __calcAnalysis__(a, b, c, d, xs, xf, ys, yf, n, procNum):

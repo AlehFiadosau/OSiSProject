@@ -1,4 +1,5 @@
 {% load static %}
+<h3 class="flex-row__space-around">Анализ данных</h3>
 <div id="data-for-calculation" class="flex-row__center">
     <div style="flex-grow: 3;">
         <div class="row data-for-surface">
@@ -24,11 +25,7 @@
                         href="#list-messages" role="tab" aria-controls="messages">
                         Процессы
                         <span class="badge badge-dark hint-for-processes">1</span>
-                    </a>
-                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
-                        href="#list-settings" role="tab" aria-controls="settings">
-                        Доп. настроки
-                        <span class="badge badge-dark hint-for-div">0.2</span>
+                        <span class="badge badge-dark hint-for-processes">1000</span>
                     </a>
                 </div>
             </div>
@@ -69,11 +66,9 @@
                         <label for="id_Proc">Количество процессов</label>
                         <input type="number" id="id_Proc" data-content="processes-for-calc-surface" data-value="0"
                             min="0" class="form-control data-for-surface__field" value="1" required>
-                    </div>
-                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                        <label for="id_N">Шаг</label>
-                        <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="0"
-                            class="form-control data-for-surface__field" min="0" value="0.2" required>
+                        <label for="id_N">Количество точек</label>
+                        <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="1"
+                            class="form-control data-for-surface__field" min="1" value="1000" required>
                     </div>
                 </div>
             </div>
