@@ -72,10 +72,16 @@
                     <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
                         <label for="id_Proc">Количество процессов</label>
                         <input type="number" id="id_Proc" data-content="processes-for-calc-surface" data-value="0"
-                            min="0" class="form-control data-for-surface__field" value="1" required>
-                        <label for="id_N">Количество точек</label>
+                            min="1" class="form-control data-for-surface__field" value="1" required>
+                        <div id="processes-for-calc-surface__warning" class="alert alert-warning" role="alert"
+                            style="width: 20vw;" hidden>Значение
+                            должно быть больше 0</div>
+                        <label for="id_N">Количество делений</label>
                         <input type="number" id="id_N" data-content="div-for-calc-surface" data-value="1"
                             class="form-control data-for-surface__field" min="1" value="1000" required>
+                        <div id="div-for-calc-surface__warning" class="alert alert-warning" role="alert"
+                            style="width: 20vw;" hidden>Значение
+                            должно быть больше 0</div>
                     </div>
                     <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
                         <div class="custom-control custom-checkbox">
@@ -121,7 +127,7 @@
             </div>
         </div>
         <div class="calc-surface-square">
-            <input type="button" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
+            <input type="button" id="calc-square" class="btn btn-primary" data-content="calc-surface-square" value="Расчет">
             <img src="{% static "img/icons/icons8-8-32.png" %}" alt="Очередь для выполнения занята" hidden>
         </div>
     </div>

@@ -16,9 +16,11 @@
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="0"
                         alt="Добавить файл с данными X">
                     <div class="file-for-surface" id="file-for-surface-0">
-                        <input type="hidden" value="./Output/xArray.csv"/>
+                        <input type="hidden" value="./Output/xArray.csv" />
                         <div class="path">xArray.csv</div>
                     </div>
+                    <div class="draw__warning alert alert-warning" role="alert"
+                        style="width: 20vw;" hidden>Необходимо выбрать файл</div>
                 </div>
             </div>
             <div>
@@ -27,9 +29,11 @@
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="1"
                         alt="Добавить файл с данными Y">
                     <div class="file-for-surface" id="file-for-surface-1">
-                        <input type="hidden" value="./Output/yArray.csv"/>
+                        <input type="hidden" value="./Output/yArray.csv" />
                         <div class="path">yArray.csv</div>
                     </div>
+                    <div class="draw__warning alert alert-warning" role="alert"
+                        style="width: 20vw;" hidden>Необходимо выбрать файл</div>
                 </div>
             </div>
             <div>
@@ -38,14 +42,18 @@
                     <img src="{% static "img/icons/icons8-1-32.png" %}" data-content="get-file" data-value="2"
                         alt="Добавить файл с данными Z">
                     <div class="file-for-surface" id="file-for-surface-2">
-                        <input type="hidden" value="./Output/zArray.csv"/>
+                        <input type="hidden" value="./Output/zArray.csv" />
                         <div class="path">zArray.csv</div>
                     </div>
+                    <div class="draw__warning alert alert-warning" role="alert"
+                        style="width: 20vw;" hidden>Необходимо выбрать файл</div>
             </div>
         </div>
         <div>
-            <input type="button" data-content="draw" id="draw-surface" class="draw-surface btn btn-info" value="Построить">
-            <button id="draw-surface-load" class="draw-surface btn btn-success" type="button" style="display: none;" disabled>
+            <input type="button" data-content="draw" id="draw-surface" class="draw-surface btn btn-info"
+                value="Построить">
+            <button id="draw-surface-load" class="draw-surface btn btn-success" type="button" style="display: none;"
+                disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Построение...
             </button>

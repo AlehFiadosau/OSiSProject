@@ -38,10 +38,10 @@ class TrapezoidMethod():
         dataForWrite = []
         num = Value('f', 0.0)
 
-        hy = (self.Yf - self.Ys) / n
-        hx = (self.Xf - self.Xs) / n
+        hy = math.fabs(self.Yf - self.Ys) / n
+        hx = math.fabs(self.Xf - self.Xs) / n
         x = np.linspace(self.Xs, self.Xf, n)
-        h = (self.Yf - self.Ys) / processesNumber
+        h = math.fabs(self.Yf - self.Ys) / processesNumber
         itersToN = n / processesNumber
 
         startTime = datetime.now()
@@ -121,13 +121,13 @@ class TrapezoidMethod():
 
         return result
 
-    def getFuncForX(self, x):
-        result = self.A * 2 * x + self.C
-
-        return result
-    
     def getFuncForY(self, y):
         result = self.B * 2 * y + self.D
+
+        return result
+
+    def getFuncForX(self, x):
+        result = self.A * 2 * x + self.C
 
         return result
     
