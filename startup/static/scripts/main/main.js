@@ -60,7 +60,7 @@ document.addEventListener("change", (ev) => {
     let warning = [];
     warning.push(document.querySelector("#processes-for-calc-surface__warning"));
     warning.push(document.querySelector("#div-for-calc-surface__warning"));
-
+    
     switch (dataContent) {
         case "params-for-calc-surface":
             hints = document.querySelectorAll(".hint-for-params");
@@ -98,6 +98,9 @@ document.addEventListener("change", (ev) => {
             } else {
                 saveAsChecked.removeAttribute("disabled");
             }
+            break;
+        case "file-for-date":
+            checkSaveAs(ev.target.value, +dataValue);
             break;
     }
 });
@@ -158,4 +161,40 @@ function checkFile() {
     }
 
     return isDraw;
+}
+
+function checkSaveAs(val, number) {
+    let fileWarning = document.querySelectorAll(".file__warning ");
+
+    if (val.length == 0) {
+        fileWarning[number].removeAttribute("hidden");
+    } else {
+        fileWarning[number].setAttribute("hidden", true);
+    }
+}
+
+function checkIntervals(number) {
+    let inervalsToXWarning = document.querySelectorAll(".interval-for-x__warning");
+    let inervalsToYWarning = document.querySelectorAll(".interval-for-y__warning");
+    let dataValue, otherDataValue;
+    
+    switch (number) {
+        case 0:
+            dataValue = inervalsToXWarning[0].getAttribute("data-value");
+            otherDataValue = inervalsToXWarning[1].getAttribute("data-value");
+
+            
+            break;
+        case 1:
+            
+            break;
+        case 2:
+            
+            break;
+        case 3:
+            
+            break;
+        default:
+            break;
+    }
 }

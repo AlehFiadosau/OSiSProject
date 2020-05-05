@@ -23,6 +23,16 @@ function calcSurfaceSquare(oneProgress) {
         let ZFile = document.querySelector("#id_ZFile");
         let dir = "Output/";
         let fileExt = ".csv";
+        
+        if (XFile.value.length == 0) {
+            XFile.value = "xArray";
+        }
+        if (YFile.value.length == 0) {
+            YFile.value = "yArray";
+        }
+        if (ZFile.value.length == 0) {
+            ZFile.value = "zArray";
+        }
 
         filesArray.push(dir + XFile.value + fileExt);
         filesArray.push(dir + YFile.value + fileExt);

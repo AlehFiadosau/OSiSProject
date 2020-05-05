@@ -38,10 +38,10 @@ class TrapezoidMethod():
         dataForWrite = []
         num = Value('f', 0.0)
 
-        hy = math.fabs(self.Yf - self.Ys) / n
-        hx = math.fabs(self.Xf - self.Xs) / n
+        hy = (self.Yf - self.Ys) / n
+        hx = (self.Xf - self.Xs) / n
         x = np.linspace(self.Xs, self.Xf, n)
-        h = math.fabs(self.Yf - self.Ys) / processesNumber
+        h = (self.Yf - self.Ys) / processesNumber
         itersToN = n / processesNumber
 
         startTime = datetime.now()

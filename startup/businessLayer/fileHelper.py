@@ -21,7 +21,7 @@ class FileHelperForTrapezoid():
     def writeToFiles(self,
                     xArraysPath="Output/xArray.csv",
                     yArraysPath="Output/yArray.csv",
-                    matrixPath="Output/matrix.csv"):
+                    matrixPath="Output/zArray.csv"):
         xs = self.Xs
         xf = self.Xf
         ys = self.Ys
