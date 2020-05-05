@@ -13,6 +13,7 @@ function calcSurfaceSquare(oneProgress) {
     let N = document.querySelector("#id_N");
     let Proc = document.querySelector("#id_Proc");
     let isSaveFile = document.querySelector("#id_IsSaveFile");
+    let isShowApprox = document.querySelector("#id_IsShowIntegral");
     let filesArray = [];
     let execute;
     
@@ -22,6 +23,16 @@ function calcSurfaceSquare(oneProgress) {
         let ZFile = document.querySelector("#id_ZFile");
         let dir = "Output/";
         let fileExt = ".csv";
+        
+        if (XFile.value.length == 0) {
+            XFile.value = "xArray";
+        }
+        if (YFile.value.length == 0) {
+            YFile.value = "yArray";
+        }
+        if (ZFile.value.length == 0) {
+            ZFile.value = "zArray";
+        }
 
         filesArray.push(dir + XFile.value + fileExt);
         filesArray.push(dir + YFile.value + fileExt);
@@ -39,7 +50,8 @@ function calcSurfaceSquare(oneProgress) {
         Yf: +Yf.value,
         N: +N.value,
         Proc: +Proc.value,
-        isSaveFile: isSaveFile.checked,
+        SaveFile: isSaveFile.checked,
+        ShowApprox: isShowApprox.checked,
         Files: filesArray
     };
 

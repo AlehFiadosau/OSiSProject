@@ -166,6 +166,13 @@ div.data-for-surface__field {
     align-items: center;
 }
 
+.flex-row__flex-start-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .flex-row__flex-start {
     display: flex;
     justify-content: flex-start;
