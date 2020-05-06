@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import matplotlib
-from multiprocessing import Pool, Value, Process
+from multiprocessing import Value, Process
 from .fileHelper import FileHelperForTrapezoid
 import os.path
 from scipy import integrate
@@ -103,7 +103,6 @@ class TrapezoidMethod():
         for index in range(n + 1):
             y = ys + hy * index
             res.append(self.calcFromX(x, y, hx))
-
         num.value = hy * sum(res)
 
     def calcFromX(self, x, y, hx):
