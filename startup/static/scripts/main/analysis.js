@@ -26,5 +26,30 @@ function dataAnalysis() {
         Proc: +Proc.value
     };
 
+    let paramsHints = document.querySelectorAll(".hint-for-params");
+    let paramsWarning = document.querySelector("#default-params");
+    checkDefaultData(paramsHints, paramsWarning, A, B, C, D);
+
+    paramsHints = document.querySelectorAll(".hint-for-intervals");
+    paramsWarning = document.querySelector("#default-intervals");
+    checkDefaultData(paramsHints, paramsWarning, Xs, Xf, Ys, Yf);
+    
+    paramsHints = document.querySelectorAll(".hint-for-processes");
+    paramsWarning = document.querySelector("#default-processes");
+    checkDefaultData(paramsHints, paramsWarning, N, Proc);
+
+    let allWarningForIntervals = document.querySelectorAll(".interval__warning");
+
+    for (let index = 0; index < allWarningForIntervals.length; index++) {
+        allWarningForIntervals[index].setAttribute("hidden", true);
+    }
+
+    let targetWarningForIntervals = document.querySelector(".for-x");
+    paramsHints = document.querySelectorAll(".hint-for-intervals");
+    checkIntervalsValue(Xs, Xf, targetWarningForIntervals, paramsHints);
+
+    targetWarningForIntervals = document.querySelector(".for-y");
+    checkIntervalsValue(Ys, Yf, targetWarningForIntervals, paramsHints);
+
     ajaxQueryCalback("GET", "/calcAnalysis/", ".execute-analysis", ".analysis", dataDictionary, ".analysis-result");
 }

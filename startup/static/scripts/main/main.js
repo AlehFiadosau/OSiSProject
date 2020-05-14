@@ -172,29 +172,3 @@ function checkSaveAs(val, number) {
         fileWarning[number].setAttribute("hidden", true);
     }
 }
-
-function checkIntervals(number) {
-    let inervalsToXWarning = document.querySelectorAll(".interval-for-x__warning");
-    let inervalsToYWarning = document.querySelectorAll(".interval-for-y__warning");
-    let dataValue, otherDataValue;
-    
-    switch (number) {
-        case 0:
-            dataValue = inervalsToXWarning[0].getAttribute("data-value");
-            otherDataValue = inervalsToXWarning[1].getAttribute("data-value");
-
-            
-            break;
-        case 1:
-            
-            break;
-        case 2:
-            
-            break;
-        case 3:
-            
-            break;
-        default:
-            break;
-    }
-}
