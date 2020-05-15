@@ -85,3 +85,30 @@ function createSpan(classList, attributeNames, attributeValues, id) {
 function changeImg(img, newSrc) {
     img.src = newSrc;
 }
+
+function checkDefaultData(hints, showWarning) {
+    if (showWarning != null) {
+        showWarning.setAttribute("hidden", true);
+    }
+    
+    if (arguments.length > 2)
+    {
+        for (let index = 2; index < arguments.length; index++) {
+            if (arguments[index].value.length == 0) {
+                setDefaultData(arguments[index], hints[index - 2], showWarning);
+            } else {
+                removeDefaultData(hints[index - 2]);
+            }
+        }
+    }
+}
+
+function checkIntervalsValue(startElement, finishElement, taregtWarning, hints) {
+    let dataValue = +startElement.getAttribute("data-value");
+
+    if (startElement.value > finishElement.value) {
+        taregtWarning.removeAttribute("hidden");
+        hints[dataValue].classList.remove("badge-dark");
+        hints[dataValue].classList.add("badge-danger");
+    }
+}

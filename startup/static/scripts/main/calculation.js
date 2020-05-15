@@ -24,15 +24,32 @@ function calcSurfaceSquare(oneProgress) {
         let dir = "Output/";
         let fileExt = ".csv";
         
-        if (XFile.value.length == 0) {
-            XFile.value = "xArray";
+        let paramsHints = document.querySelectorAll(".hint-for-params");
+        let paramsWarning = document.querySelector("#default-params");
+        checkDefaultData(paramsHints, paramsWarning, A, B, C, D);
+
+        paramsHints = document.querySelectorAll(".hint-for-intervals");
+        paramsWarning = document.querySelector("#default-intervals");
+        checkDefaultData(paramsHints, paramsWarning, Xs, Xf, Ys, Yf);
+        
+        paramsHints = document.querySelectorAll(".hint-for-processes");
+        paramsWarning = document.querySelector("#default-processes");
+        checkDefaultData(paramsHints, paramsWarning, N, Proc);
+
+        let allWarningForIntervals = document.querySelectorAll(".interval__warning");
+
+        for (let index = 0; index < allWarningForIntervals.length; index++) {
+            allWarningForIntervals[index].setAttribute("hidden", true);
         }
-        if (YFile.value.length == 0) {
-            YFile.value = "yArray";
-        }
-        if (ZFile.value.length == 0) {
-            ZFile.value = "zArray";
-        }
+
+        let targetWarningForIntervals = document.querySelector(".for-x");
+        paramsHints = document.querySelectorAll(".hint-for-intervals");
+        checkIntervalsValue(Xs, Xf, targetWarningForIntervals, paramsHints);
+
+        targetWarningForIntervals = document.querySelector(".for-y");
+        checkIntervalsValue(Ys, Yf, targetWarningForIntervals, paramsHints);
+
+        checkDefaultFiles(XFile, YFile, ZFile);
 
         filesArray.push(dir + XFile.value + fileExt);
         filesArray.push(dir + YFile.value + fileExt);
@@ -65,6 +82,34 @@ function calcSurfaceSquare(oneProgress) {
     progress.value = currentProgress;
 
     showWarningCalc();
+}
+
+function checkDefaultFiles(xFile, yFile, zFile) {
+    if (xFile.value.length == 0) {
+        XFile.value = "xArray";
+    }
+    if (yFile.value.length == 0) {
+        YFile.value = "yArray";
+    }
+    if (zFile.value.length == 0) {
+        ZFile.value = "zArray";
+    }
+}
+
+function setDefaultData(data, hint, warning) {
+    data.value = 1;
+    hint.innerHTML = data.value;
+    hint.classList.remove("badge-dark");
+    hint.classList.add("badge-warning");
+
+    if (warning != null) {
+        warning.removeAttribute("hidden");
+    }
+}
+
+function removeDefaultData(hint) {
+    hint.classList.remove("badge-warning");
+    hint.classList.add("badge-dark");
 }
 
 function showCard(target) {

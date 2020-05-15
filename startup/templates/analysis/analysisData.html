@@ -12,6 +12,7 @@
                         <span class="badge badge-dark hint-for-params">1</span>
                         <span class="badge badge-dark hint-for-params">5</span>
                         <span class="badge badge-dark hint-for-params">-5</span>
+                        <span id="default-params" class="badge badge-white hint-for-params" hidden>По умолчанию</span>
                     </a>
                     <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
                         href="#list-profile" role="tab" aria-controls="profile">
@@ -20,6 +21,8 @@
                         <span class="badge badge-dark hint-for-intervals">50</span>
                         <span class="badge badge-dark hint-for-intervals">-70</span>
                         <span class="badge badge-dark hint-for-intervals">70</span>
+                        <span id="default-intervals" class="badge badge-white hint-for-params" hidden>По
+                            умолчанию</span>
                     </a>
                     <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
                         href="#list-messages" role="tab" aria-controls="messages">
@@ -52,12 +55,16 @@
                         <label for="id_Xs">Начальное значение Х</label>
                         <input type="number" id="id_Xs" data-content="intervals-for-calc-surface" data-value="0"
                             class="form-control data-for-surface__field" value="-50" required>
+                        <div class="interval__warning for-x alert alert-warning" role="alert" data-value="0"
+                            style="width: 20vw;" hidden>Должно быть меньше конечного X</div>
                         <label for="id_Xf">Конечное значение Х</label>
                         <input type="number" id="id_Xf" data-content="intervals-for-calc-surface" data-value="1"
                             class="form-control data-for-surface__field" value="50" required>
                         <label for="id_Ys">Начальное значение Y</label>
                         <input type="number" id="id_Ys" data-content="intervals-for-calc-surface" data-value="2"
                             class="form-control data-for-surface__field" value="-70" required>
+                        <div class="interval__warning for-y alert alert-warning" role="alert" data-value="2"
+                            style="width: 20vw;" hidden>Должно быть меньше конечного Y</div>
                         <label for="id_Yf">Конечное значение Y</label>
                         <input type="number" id="id_Yf" data-content="intervals-for-calc-surface" data-value="3"
                             class="form-control data-for-surface__field" value="70" required>
@@ -80,7 +87,8 @@
             </div>
         </div>
         <div>
-            <input type="button" id="calc-square" class="analysis btn btn-primary" data-content="analysis" value="Анализ">
+            <input type="button" id="calc-square" class="analysis btn btn-primary" data-content="analysis"
+                value="Анализ">
             <button class="execute-analysis btn btn-success" type="button" style="display: none;" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Выполнение...

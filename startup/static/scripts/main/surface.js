@@ -1,3 +1,5 @@
+let surfaceError = false;
+
 function drawSurface() {
     let filePaths = document.querySelectorAll(".file-for-surface input");
     let resultId = "#draw-result__failed";
@@ -18,18 +20,29 @@ function drawSurface() {
 
     callbackAjax.complete.func = addSurface;
     callbackAjax.complete.params = [];
+    callbackAjax.error.func = surfError;
+    callbackAjax.error.params = [];
 
-    ajaxQueryCalback("GET", "/getDataForSurface/", "#draw-surface-load", "#draw-surface", dataDictionary, resultId, callbackAjax);
+    ajaxQueryCalbackE("GET", "/getDataForSurface/", "#draw-surface-load", "#draw-surface", dataDictionary, resultId, callbackAjax);
 }
 
 function addSurface() {
-    let surf = document.querySelector(".img-surface");
-    let src = "/static/surfaces/surface.png";
-    let img = createImg(src);
+    if (!surfaceError) {
+        let surf = document.querySelector(".img-surface");
+        let src = "/static/surfaces/surface.png";
+        let img = createImg(src);
 
-    if (surf.children.length == 1) {
-        surf.children[0].remove();
+        if (surf.children.length == 1) {
+            surf.children[0].remove();
+        }
+
+        surf.appendChild(img);
     }
+}
 
-    surf.appendChild(img);
+function surfError() {
+    surfaceError = true;
+    let surf = document.querySelector(".img-surface");
+    let firstChild = surf.firstElementChild;
+    surf.removeChild(firstChild);
 }

@@ -1,13 +1,13 @@
 from datetime import datetime
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import math
-import matplotlib
-from multiprocessing import Pool, Value, Process
+from multiprocessing import Value, Process
 from .fileHelper import FileHelperForTrapezoid
 import os.path
 from scipy import integrate
-matplotlib.use('TkAgg')
 
 
 class TrapezoidMethod():
@@ -103,7 +103,6 @@ class TrapezoidMethod():
         for index in range(n + 1):
             y = ys + hy * index
             res.append(self.calcFromX(x, y, hx))
-
         num.value = hy * sum(res)
 
     def calcFromX(self, x, y, hx):
@@ -159,17 +158,29 @@ class TrapezoidMethod():
         return myFyncZnach
 
     def draw(self, x, y, z):
-        xArray, yArray = np.meshgrid(x, y)
-        zArray = np.array(z)
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(xArray, yArray, np.transpose(zArray), cmap='inferno')
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-        fig.savefig("startup/static/surfaces/surface.png")
-        plt.show()
-        plt.close()
+        surfaceImg = "startup/static/surfaces/surface.png"
+        isError = False
+
+        if (os.path.isfile(surfaceImg)):
+            os.remove(surfaceImg)
+        try:
+            xArray, yArray = np.meshgrid(x, y)
+            zArray = np.array(z)
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+            ax.plot_surface(xArray, yArray, np.transpose(zArray), cmap='inferno')
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_zlabel('Z')
+            fig.savefig(surfaceImg)
+            plt.show()
+            plt.close()
+            errorMessage = False
+        except ValueError:
+            errorMessage = True
+            plt.close()
+        
+        return errorMessage
 
     def drawAnalysis(self, times, procNumbers):
         procNumbers = [str(item) for item in procNumbers]
