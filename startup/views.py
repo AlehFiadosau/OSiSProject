@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from .businessLayer.trapezoidMethod import TrapezoidMethod
@@ -44,9 +44,12 @@ def getDataForSurface(request):
         x, y, z = fileHelper.readOfFiles(xpath, ypath, zpath)
 
         trapezoid = TrapezoidMethod()
-        trapezoid.draw(x, y, z)
+        isError = trapezoid.draw(x, y, z)
 
-        return HttpResponse("Построение завершено")
+        if (isError):
+            return HttpResponseBadRequest()
+        else:
+            return HttpResponse()
     else:
         return HttpResponse(error)
 
